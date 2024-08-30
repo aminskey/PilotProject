@@ -21,7 +21,7 @@ bubbleGrp = pygame.sprite.Group()
 frontBub = pygame.sprite.Group()
 backBub = pygame.sprite.Group()
 
-screen = pygame.display.set_mode((600, 400), SCALED | FULLSCREEN)
+screen = pygame.display.set_mode((1200, 800), SCALED | FULLSCREEN)
 pygame.display.set_caption("Fish - Testing Vectors")
 
 clock = pygame.time.Clock()
@@ -29,7 +29,7 @@ clock = pygame.time.Clock()
 class Bubble(pygame.sprite.Sprite):
     def __init__(self, pos, sizeF=1):
         super().__init__()
-        self.image = pygame.transform.scale_by(pygame.image.load("bubble.png"), sizeF)
+        self.image = pygame.transform.scale_by(pygame.image.load("assets/misc/bubble.png"), sizeF)
         self.rect = self.image.get_rect()
 
         self.rect.topleft = pos
@@ -91,8 +91,8 @@ def isInBounds(pos, offset, minPoint, maxPoint):
 
 def main():
     for i in range(10):
-        f = random.choice(listdir("./fishes"))
-        tmp = Fish(f"./fishes/{f}",
+        f = random.choice(listdir("assets/fish/"))
+        tmp = Fish(f"assets/fish/{f}",
                    random.randrange(1, 5)/10,
                    (random.randint(0, screen.get_width()),
                     random.randint(0, screen.get_height())),
