@@ -4,13 +4,14 @@ import pygame
 from pygame.locals import *
 from os import listdir
 from oceanlife import Fish
-from misc import Bubble
 from variables import *
-from vector import Vector
 from guiMainMenu import mainMenu
+
+pygame.init()
 
 screen = pygame.display.set_mode((1200, 800), SCALED | FULLSCREEN)
 pygame.display.set_caption("Fish - Testing Vectors")
+
 
 def main():
     for i in range(10):
