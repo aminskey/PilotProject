@@ -18,7 +18,7 @@ class Fish(pygame.sprite.Sprite):
         if v[0] != 0 and v[1] != 0:
             self.__vel = Vector(v[0] * dTime, v[1] * dTime)
         else:
-            self.__vel = Vector(random.randint(-3, 3) * dTime, random.randint(-3, 3) * dTime)
+            self.__vel = Vector(random.choice((-2, 2)) * dTime, random.choice((-1, 1)) * dTime)
         self.loop = loop
 
     def borderCheck(self):
