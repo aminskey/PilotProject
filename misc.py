@@ -1,4 +1,5 @@
 import pygame, random
+from vector import Vector
 
 class Bubble(pygame.sprite.Sprite):
     def __init__(self, screen, pos, sizeF=1):
@@ -8,9 +9,10 @@ class Bubble(pygame.sprite.Sprite):
         self.screen = screen
 
         self.rect.topleft = pos
+        self.vel = Vector(0, -1)
     def update(self):
         if self.rect.midbottom[1] > 0:
-            self.rect.y -= 1
+            self.rect.y += self.vel.y
         else:
             self.rect.y = self.screen.get_height()
             self.rect.x = random.randint(0, self.screen.get_width())
