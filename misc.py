@@ -4,7 +4,7 @@ from vector import Vector
 class Bubble(pygame.sprite.Sprite):
     def __init__(self, screen, pos, sizeF=1):
         super().__init__()
-        self.image = pygame.transform.scale_by(pygame.image.load("assets/misc/bubble.png"), sizeF)
+        self.image = pygame.transform.scale_by(pygame.image.load("assets/misc/bubble3.png"), sizeF)
         self.rect = self.image.get_rect()
         self.screen = screen
 
@@ -16,4 +16,3 @@ class Bubble(pygame.sprite.Sprite):
         else:
             self.rect.y = self.screen.get_height()
             self.rect.x = random.randint(0, self.screen.get_width())
-

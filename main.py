@@ -9,8 +9,8 @@ from guiMainMenu import mainMenu
 
 pygame.init()
 
-screen = pygame.display.set_mode((1200, 800), SCALED | FULLSCREEN)
-pygame.display.set_caption("Fish - Testing Vectors")
+screen = pygame.display.set_mode((1200, 800))
+pygame.display.set_caption("Marine14")
 
 
 def main():
