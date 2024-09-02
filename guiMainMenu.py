@@ -9,7 +9,7 @@ from text import Text
 
 def mainMenu(screen):
     titleFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 75)
-    title = Text("Marine Life", titleFont, WHITE, shadow=True)
+    title = Text("Marine Life", titleFont, WHITE, shadow=OCEANSHADOW, pos2=(5, 4))
     title.rect.topleft = screen.get_rect().center
 
     bubbleGrp.empty()
