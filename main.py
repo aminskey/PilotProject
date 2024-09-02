@@ -9,7 +9,7 @@ from guiMainMenu import mainMenu
 
 pygame.init()
 
-screen = pygame.display.set_mode((1200, 800))
+screen = pygame.display.set_mode((1200, 800), SCALED | FULLSCREEN)
 pygame.display.set_caption("Marine14")
 
 

@@ -32,9 +32,9 @@ def mainMenu(screen):
         bub = Bubble(screen, (random.randint(0, screen.get_width()), random.randint(0, screen.get_height())), random.randint(25, 125)/100)
 
         if i % 3 == 0:
-            bgFish = Fish("assets/fish/secretFish/fish2.png", 3, screen,
-                          (screen.get_width() // 2, screen.get_height() // 2))
-            bgFish.base_image.set_alpha(200)
+            bgFish = Fish("assets/fish/secretFish/fish2.png", random.randint(1, 5), screen,
+                          (screen.get_width() // 2 + random.choice((-50, 50)), screen.get_height() // 2 + random.choice((-50, 50))))
+            #bgFish.base_image.set_alpha(200)
             fishGrp.add(bgFish)
 
         if not pygame.sprite.spritecollideany(bub, bubbleGrp):
