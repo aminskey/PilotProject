@@ -28,13 +28,12 @@ def mainMenu(screen):
 
     global dTime
 
-    for i in range(15):
+    for i in range(10):
         bub = Bubble(screen, (random.randint(0, screen.get_width()), random.randint(0, screen.get_height())), random.randint(25, 125)/100)
 
         if i < 3:
             bgFish = Fish("assets/fish/secretFish/fish2.png", random.randint(1, 5), screen,
                           (screen.get_width() // 2 + random.choice((-50, 50)), screen.get_height() // 2 + random.choice((-50, 50))))
-            #bgFish.base_image.set_alpha(200)
             fishGrp.add(bgFish)
 
         if not pygame.sprite.spritecollideany(bub, bubbleGrp):
@@ -66,8 +65,8 @@ def mainMenu(screen):
         fishGrp.draw(screen)
         screen.blit(bg, (0, 0))
         screen.blit(shade, (0, 0))
-        frontBub.draw(screen)
         screen.blit(title.image, title.rect)
+        frontBub.draw(screen)
 
         pygame.display.update()
         clock.tick(30)
