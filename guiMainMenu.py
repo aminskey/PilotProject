@@ -7,9 +7,14 @@ from variables import *
 from vector import Vector
 from text import Text
 from oceanlife import Fish
+from button import Button
+
+buttons = pygame.sprite.Group()
 
 def mainMenu(screen):
     titleFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 75)
+    pFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 25)
+
     title = Text("Marine Life", titleFont, WHITE, shadow=OCEANSHADOW, pos2=(5, 4))
     title.rect.topleft = screen.get_rect().center
 
@@ -17,6 +22,11 @@ def mainMenu(screen):
     bg2 = pygame.transform.scale(pygame.image.load("assets/backgrounds/MainMenu/reef2.png"), (screen.get_width() - 100, screen.get_height()))
     shade = pygame.Surface(screen.get_size())
     shade.fill(OCEANBLUE)
+
+    msg = Text("Demo Button", pFont, WHITE)
+    demoBtn = Button("assets/buttons/buttonDemo.png", (msg.image.get_width() * 1.5, msg.image.get_height() * 1.5), msg)
+
+    demoBtn.rect.topright = title.rect.bottomright
 
     shade.set_alpha(125)
     bg2.set_alpha(150)
@@ -58,6 +68,7 @@ def mainMenu(screen):
 
         bubbleGrp.update()
         fishGrp.update()
+        demoBtn.update()
 
         screen.fill(OCEANBLUE)
         screen.blit(bg2, (50, 0))
@@ -66,6 +77,7 @@ def mainMenu(screen):
         screen.blit(bg, (0, 0))
         screen.blit(shade, (0, 0))
         screen.blit(title.image, title.rect)
+        screen.blit(demoBtn.image, demoBtn.rect)
         frontBub.draw(screen)
 
         pygame.display.update()
