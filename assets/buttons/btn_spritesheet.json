@@ -1,6 +1,6 @@
 {
   "frames": {
-    "Marine life button 10.png": {
+    "normal": {
       "frame": {
         "x": 0,
         "y": 0,
@@ -20,7 +20,7 @@
         "h": 9
       }
     },
-    "Marine life button 11.png": {
+    "hover": {
       "frame": {
         "x": 0,
         "y": 9,
