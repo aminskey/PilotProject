@@ -75,10 +75,8 @@ class Fish(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(tmp, -degrees(self.__vel.polar360))
 
         # if the fish magically disappears from the screen, then recenter it
-        if self.rect.centery < 0 or self.rect.centery > self.screen.get_height():
-            self.rect.centery = self.screen.get_rect().centery
-        if self.rect.centerx < 0 or self.rect.centerx > self.screen.get_width():
-            self.rect.centerx = self.screen.get_rect().centerx
+        if not isInBounds(self.rect.center, 0, (0, 0), self.screen.get_size()):
+            self.rect.center = self.screen.get_rect().center
 
         # update position of fish.
         self.rect.centerx += self.__vel.x
