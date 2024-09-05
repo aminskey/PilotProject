@@ -1,20 +1,27 @@
 # More to come
 import pygame
 import json
+import cv2 as cv
 
 from pygame.locals import *
 from variables import *
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, image, size):
+    def __init__(self, image, jdata, size):
         super().__init__()
-        tmp = pygame.image.load(image)
-        #self.__data = json.load(jdata)
-        self.base_image = pygame.transform.scale(tmp, size)
-        self.h_image = pygame.transform.scale(pygame.image.load("assets/buttons/Marine life button 2.png"), size)
+        tmp = cv.imread(image)
+        self.__data = json.load(jdata)
+
+        self.base_image = pygame.transform.scale(self.crop(tmp, "normal"), size)
+        self.h_image = pygame.transform.scale(self.crop(tmp, "normal"), size)
         self.image = self.base_image.copy()
         self.rect = self.image.get_rect()
         self.__activated = False
+
+    def crop(self, buff, header):
+        x, y, w, h = self.__data["frames"][header]["frame"].items()
+        buff2 = buff[y:x, y+h:x+w]
+        return pygame.image.frombuffer(buff2.tobytes(), buff2.shape[-1::1], "BGR")
 
     def addText(self, msgObj, pos):
         msgObj.rect.center = pos
