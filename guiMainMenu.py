@@ -33,11 +33,16 @@ def mainMenu(screen):
     exitBtn = Button(start.image.get_size())
     exitBtn.addText(Text("Quit Game", pFont, OCEANSHADOW), (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
 
-    start.rect.topright = title.rect.bottomright + Vector(-10, 60)
-    info.rect.midtop = start.rect.midbottom + Vector(0, 5)
-    exitBtn.rect.midtop = info.rect.midbottom + Vector(0, 5)
+    credBtn = Button(start.image.get_size())
+    credBtn.addText(Text("Credits", pFont, OCEANSHADOW),
+                    (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
 
-    buttons.add(start, info, exitBtn)
+    start.rect.topright = title.rect.bottomright + Vector(-10, 40)
+    info.rect.midtop = start.rect.midbottom + Vector(0, 5)
+    credBtn.rect.midtop = info.rect.midbottom + Vector(0, 5)
+    exitBtn.rect.bottomright = screen.get_rect().bottomright + Vector(-10, -10)
+
+    buttons.add(start, info, credBtn, exitBtn)
     allSprites.add(start, title)
 
     shade.set_alpha(125)
