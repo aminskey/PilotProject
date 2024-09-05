@@ -5,6 +5,7 @@ import pygame
 from pygame.locals import *
 from os import listdir
 from oceanlife import Fish
+from swarm import Flock
 from variables import *
 from guiMainMenu import mainMenu
 
@@ -15,12 +16,12 @@ pygame.display.set_caption("Marine14")
 
 
 def main():
-    for i in range(10):
-        fpath = f"assets/fish/{random.choice(listdir('assets/fish/'))}"
-        if os.path.isfile(fpath):
-            tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(0, screen.get_width()),random.randint(0, screen.get_height())))
-            tmp.add(fishGrp)
-
+    # for i in range(10):
+    #     fpath = f"assets/fish/{random.choice(listdir('assets/fish/'))}"
+    #     if os.path.isfile(fpath):
+    #         tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(0, screen.get_width()),random.randint(0, screen.get_height())))
+    #         tmp.add(fishGrp)
+    fish = Flock(10, screen)
     bg = pygame.Surface(screen.get_size())
     bg.fill(BLUE)
     bg.set_alpha(150)

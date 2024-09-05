@@ -54,6 +54,8 @@ class Fish(pygame.sprite.Sprite):
 
     # Update function to be run every frame.
     def update(self):
+        #draws fish
+        self.draw
         # if not loop initiated then handle border collision
         if not self.loop:
             self.borderCheck()
@@ -81,7 +83,9 @@ class Fish(pygame.sprite.Sprite):
         # update position of fish.
         self.rect.centerx += self.__vel.x
         self.rect.centery += self.__vel.y
-
+    def draw(self):
+        #draws fish to screen
+        self.screen.blit(self.image,(self.rect.centerx, self.rect.centery))
     # fish.angle would give the angle of the fish correlated to the x-axis
     @property
     def angle(self):
