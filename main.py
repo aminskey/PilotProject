@@ -16,7 +16,7 @@ pygame.display.set_caption("Marine14")
 
 def main():
     for i in range(10):
-        fpath = f"assets/fish/{random.choice(listdir("assets/fish/"))}"
+        fpath = f"assets/fish/{random.choice(listdir('assets/fish/'))}"
         if os.path.isfile(fpath):
             tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(0, screen.get_width()),random.randint(0, screen.get_height())))
             tmp.add(fishGrp)
