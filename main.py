@@ -21,7 +21,7 @@ def main():
     #     if os.path.isfile(fpath):
     #         tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(0, screen.get_width()),random.randint(0, screen.get_height())))
     #         tmp.add(fishGrp)
-    fish = Flock(10, screen)
+    fish = Flock(10, screen, 50)
     bg = pygame.Surface(screen.get_size())
     bg.fill(BLUE)
     bg.set_alpha(150)
@@ -33,12 +33,12 @@ def main():
                 running = False
                 break
 
-        fishGrp.update()
+        fish.update()
         bubbleGrp.update()
 
         screen.blit(bg, (0, 0))
         backBub.draw(screen)
-        fishGrp.draw(screen)
+        fish.draw()
         frontBub.draw(screen)
 
         pygame.display.update()

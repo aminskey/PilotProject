@@ -54,8 +54,6 @@ class Fish(pygame.sprite.Sprite):
 
     # Update function to be run every frame.
     def update(self):
-        #draws fish
-        self.draw
         # if not loop initiated then handle border collision
         if not self.loop:
             self.borderCheck()
