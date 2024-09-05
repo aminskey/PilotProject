@@ -23,10 +23,13 @@ def mainMenu(screen):
     shade = pygame.Surface(screen.get_size())
     shade.fill(OCEANBLUE)
 
-    msg = Text("Demo Button", pFont, WHITE)
-    demoBtn = Button("assets/buttons/buttonDemo.png", (msg.image.get_width() * 1.5, msg.image.get_height() * 1.5), msg)
+    msg = Text("Demo Button", pFont, OCEANSHADOW)
+    start = Button("assets/buttons/Marine life button 1.png", (msg.image.get_width() * 1.5, msg.image.get_height() * 1.5))
+    start.addText(msg, (start.image.get_width()//2, start.image.get_height()//2 - 4))
 
-    demoBtn.rect.topright = title.rect.bottomright
+    start.rect.topright = title.rect.bottomright
+
+    allSprites.add(start, title)
 
     shade.set_alpha(125)
     bg2.set_alpha(150)
@@ -54,12 +57,17 @@ def mainMenu(screen):
             else:
                 bub.image.set_alpha(200)
                 backBub.add(bub)
+        allSprites.add(bub, bgFish)
 
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 exit()
+            if start.activated:
+                for i in allSprites.sprites():
+                    i.kill()
+                return
 
         try:
             dTime = stdFPS/clock.get_fps()
@@ -68,7 +76,7 @@ def mainMenu(screen):
 
         bubbleGrp.update()
         fishGrp.update()
-        demoBtn.update()
+        start.update()
 
         screen.fill(OCEANBLUE)
         screen.blit(bg2, (50, 0))
@@ -77,7 +85,7 @@ def mainMenu(screen):
         screen.blit(bg, (0, 0))
         screen.blit(shade, (0, 0))
         screen.blit(title.image, title.rect)
-        screen.blit(demoBtn.image, demoBtn.rect)
+        screen.blit(start.image, start.rect)
         frontBub.draw(screen)
 
         pygame.display.update()

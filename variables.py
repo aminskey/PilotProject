@@ -10,7 +10,7 @@ BROWN = (139, 69, 19)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 OCEANBLUE = (30, 150, 230)
-OCEANSHADOW = (29, 70, 193)
+OCEANSHADOW = (23, 67, 117)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
@@ -20,6 +20,7 @@ fishGrp = pygame.sprite.Group()
 bubbleGrp = pygame.sprite.Group()
 frontBub = pygame.sprite.Group()
 backBub = pygame.sprite.Group()
+allSprites = pygame.sprite.Group()
 
 def isInRange(x, offset, min, max):
     return (x - offset) > min and (x + offset) < max
