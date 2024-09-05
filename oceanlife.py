@@ -68,7 +68,7 @@ class Fish(pygame.sprite.Sprite):
         if self.__vel.x < 0:
             tmp = pygame.transform.flip(self.base_image, False, True)
         else:
-            # If not, then reflip the image
+            # If not, then use base image
             # We do not want moonwalking fish
             tmp = self.base_image.copy()
         # rotate the image, based on the angle of the vector

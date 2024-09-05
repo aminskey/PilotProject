@@ -26,7 +26,7 @@ class Water(SimpleImage):
 
     def update(self, point):
         super().update()
-        h = sin(self.count*0.0125) * 10
+        h = sin(self.count*0.025) * 10
         self.rect.midbottom = point
         self.rect.y += h * dTime
         self.count += 1

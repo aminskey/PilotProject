@@ -16,7 +16,7 @@ def mainMenu(screen):
     pFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 25)
 
     title = Text("Marine Life", titleFont, WHITE, shadow=OCEANSHADOW, pos2=(5, 4))
-    title.rect.topleft = screen.get_rect().center
+    title.rect.topright = screen.get_rect().midright
 
     bg = pygame.transform.scale(pygame.image.load("assets/backgrounds/MainMenu/reef.png"), screen.get_size())
     bg2 = pygame.transform.scale(pygame.image.load("assets/backgrounds/MainMenu/reef2.png"), (screen.get_width() - 100, screen.get_height()))
@@ -24,11 +24,20 @@ def mainMenu(screen):
     shade.fill(OCEANBLUE)
 
     msg = Text("Start", pFont, OCEANSHADOW)
-    start = Button("assets/buttons/btn_spritesheet.png", "assets/buttons/btn_spritesheet.json",(msg.image.get_width() * 3, msg.image.get_height() * 2))
+    start = Button((msg.image.get_width() * 3, msg.image.get_height() * 2))
     start.addText(msg, (start.image.get_width()//2, start.image.get_height()//2 - 4))
 
-    start.rect.topright = title.rect.bottomright + Vector(15, 10)
+    info = Button(start.image.get_size())
+    info.addText(Text("About Us", pFont, OCEANSHADOW), (info.image.get_width()//2, info.image.get_height()//2 - 4))
 
+    exitBtn = Button(start.image.get_size())
+    exitBtn.addText(Text("Quit Game", pFont, OCEANSHADOW), (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
+
+    start.rect.topright = title.rect.bottomright + Vector(-10, 60)
+    info.rect.midtop = start.rect.midbottom + Vector(0, 5)
+    exitBtn.rect.midtop = info.rect.midbottom + Vector(0, 5)
+
+    buttons.add(start, info, exitBtn)
     allSprites.add(start, title)
 
     shade.set_alpha(125)
@@ -63,18 +72,21 @@ def mainMenu(screen):
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
-                exit()
+                exitBtn()
             if start.activated:
                 for i in allSprites.sprites():
                     i.kill()
                 return
+            elif exitBtn.activated:
+                pygame.quit()
+                exit()
 
-        dTimeUpdate()
+        dTimeUpdate(clock)
         print(dTime)
 
         bubbleGrp.update()
         fishGrp.update()
-        start.update()
+        buttons.update()
 
         screen.fill(OCEANBLUE)
         screen.blit(bg2, (50, 0))
@@ -83,7 +95,7 @@ def mainMenu(screen):
         screen.blit(bg, (0, 0))
         screen.blit(shade, (0, 0))
         screen.blit(title.image, title.rect)
-        screen.blit(start.image, start.rect)
+        buttons.draw(screen)
         frontBub.draw(screen)
 
         pygame.display.update()

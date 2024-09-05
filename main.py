@@ -11,8 +11,8 @@ from simpleImage import SimpleImage, Water
 
 pygame.init()
 
-screen = pygame.display.set_mode((1200, 800), SCALED | FULLSCREEN)
-pygame.display.set_caption("Marine14")
+screen = pygame.display.set_mode((1200, 800), SCALED | RESIZABLE)
+pygame.display.set_caption("Marine Life")
 
 
 def main():
@@ -45,7 +45,7 @@ def main():
                 running = False
                 break
 
-        dTimeUpdate()
+        dTimeUpdate(clock)
         fishGrp.update()
         bubbleGrp.update()
         water.update(bottom.rect.midtop)
