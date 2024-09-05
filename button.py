@@ -10,18 +10,23 @@ class Button(pygame.sprite.Sprite):
     def __init__(self, image, jdata, size):
         super().__init__()
         tmp = cv.imread(image)
-        self.__data = json.load(jdata)
+        with open(jdata, "rb") as j:
+            self.__data = json.load(j)
+            j.close()
 
         self.base_image = pygame.transform.scale(self.crop(tmp, "normal"), size)
-        self.h_image = pygame.transform.scale(self.crop(tmp, "normal"), size)
+        self.h_image = pygame.transform.scale(self.crop(tmp, "hover"), size)
         self.image = self.base_image.copy()
         self.rect = self.image.get_rect()
         self.__activated = False
 
     def crop(self, buff, header):
-        x, y, w, h = self.__data["frames"][header]["frame"].items()
-        buff2 = buff[y:x, y+h:x+w]
-        return pygame.image.frombuffer(buff2.tobytes(), buff2.shape[-1::1], "BGR")
+        x, y, w, h = self.__data["frames"][header]["frame"].values()
+        buff2 = buff[y:y+h, x:x+w]
+        img = pygame.image.frombuffer(buff2.tobytes(), buff2.shape[1::-1], "BGR")
+        img.set_colorkey(BLACK)
+
+        return img
 
     def addText(self, msgObj, pos):
         msgObj.rect.center = pos
