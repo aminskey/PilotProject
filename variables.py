@@ -27,3 +27,11 @@ def isInRange(x, offset, min, max):
 
 def isInBounds(pos, offset, minPoint, maxPoint):
     return isInRange(pos[0], offset, minPoint[0], maxPoint[0]) and isInRange(pos[1], offset, minPoint[1], maxPoint[1])
+
+def dTimeUpdate():
+    global dTime
+    try:
+        dTime = stdFPS/clock.get_fps()
+    except:
+        if dTime <= 0:
+            dTime = stdFPS/FPS

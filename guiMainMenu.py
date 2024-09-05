@@ -24,10 +24,10 @@ def mainMenu(screen):
     shade.fill(OCEANBLUE)
 
     msg = Text("Start", pFont, OCEANSHADOW)
-    start = Button("assets/buttons/btn_spritesheet.png", "assets/buttons/btn_spritesheet.json",(msg.image.get_width() * 1.5, msg.image.get_height() * 1.5))
+    start = Button("assets/buttons/btn_spritesheet.png", "assets/buttons/btn_spritesheet.json",(msg.image.get_width() * 3, msg.image.get_height() * 2))
     start.addText(msg, (start.image.get_width()//2, start.image.get_height()//2 - 4))
 
-    start.rect.topright = title.rect.bottomright
+    start.rect.topright = title.rect.bottomright + Vector(15, 10)
 
     allSprites.add(start, title)
 
@@ -69,10 +69,8 @@ def mainMenu(screen):
                     i.kill()
                 return
 
-        try:
-            dTime = stdFPS/clock.get_fps()
-        except:
-            dTime = stdFPS/FPS
+        dTimeUpdate()
+        print(dTime)
 
         bubbleGrp.update()
         fishGrp.update()

@@ -77,6 +77,8 @@ class Fish(pygame.sprite.Sprite):
         # if the fish magically disappears from the screen, then recenter it
         if self.rect.centery < 0 or self.rect.centery > self.screen.get_height():
             self.rect.centery = self.screen.get_rect().centery
+        if self.rect.centerx < 0 or self.rect.centerx > self.screen.get_width():
+            self.rect.centerx = self.screen.get_rect().centerx
 
         # update position of fish.
         self.rect.centerx += self.__vel.x
