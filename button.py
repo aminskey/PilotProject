@@ -1,9 +1,9 @@
 # More to come
+
 import pygame
 import json
 import cv2 as cv
 
-from pygame.locals import *
 from variables import *
 
 class Button(pygame.sprite.Sprite):
