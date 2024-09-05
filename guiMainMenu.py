@@ -50,6 +50,8 @@ def mainMenu(screen):
 
     global dTime
 
+    pygame.mixer.music.load("assets/music/MainMenu/ocean-wave-ambient-boy-main-version-16232-09-09.mp3")
+
     for i in range(10):
         bub = Bubble(screen, (random.randint(0, screen.get_width()), random.randint(0, screen.get_height())), random.randint(25, 125)/100)
 
@@ -68,6 +70,7 @@ def mainMenu(screen):
                 backBub.add(bub)
         allSprites.add(bub, bgFish)
 
+    pygame.mixer.music.play()
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
