@@ -39,7 +39,7 @@ def main():
     #     if os.path.isfile(fpath):
     #         tmp = Fish(fpath, random.randrange(1, 5)/10, water.image,(random.randint(0, water.image.get_width()),random.randint(0, water.image.get_height())))
     #         tmp.add(fishGrp)
-    fish = Flock(10, screen, 50)
+    fish = Flock(20, screen, 300)
 
     running = True
     pygame.mixer.music.play(0)
@@ -55,12 +55,14 @@ def main():
         water.update(bottom.rect.midtop)
 
         bg.draw(screen)
-        # fish.draw(water.image)
-        fish.draw()
         water.draw(screen)
+        # Ask before pushing 
+        fish.draw()
+        # fish.draw(water.image)
         backBub.draw(screen)
         frontBub.draw(screen)
         bottom.draw(screen)
+        fish.updateBoid(screen)
 
         pygame.display.update()
         clock.tick(FPS)

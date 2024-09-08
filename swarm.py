@@ -3,6 +3,7 @@ from os import listdir
 from oceanlife import Fish
 import random
 from math import sqrt
+import pygame
 
 #test 2
 
@@ -29,14 +30,17 @@ class Flock:
   def update(self):
     for fish in self.__fishies:
       fish.update()
-  def updateBoid(self):
+  def updateBoid(self, screen):
     #opdaterer alle fisk i relation til de andre
     for fish in self.__fishies:
       #finder alle fisks naboer indenfor radiussen boidR
       neighbours = []
-      for neighbour in self.fishies:
-        if(sqrt((neighbour.rect.centerx-fish.rect.centerx)**2+(neighbour.rect.centery-fish.rect.centery)**2) <=50):
+      for neighbour in self.__fishies:
+        if(sqrt((neighbour.rect.centerx-fish.rect.centerx)**2+(neighbour.rect.centery-fish.rect.centery)**2) <= self.__boidR):
           neighbours.append(neighbour)
+          pygame.draw.line(screen, (255, 0, 0), (fish.rect.centerx, fish.rect.centery), (neighbour.rect.centerx, neighbour.rect.centery), 5)
+          # print("found pair")
+      
 
       
       
