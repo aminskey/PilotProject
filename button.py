@@ -7,7 +7,7 @@ import cv2 as cv
 from variables import *
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, image, jdata, size):
+    def __init__(self, size, image="assets/buttons/btn_spritesheet.png", jdata="assets/buttons/btn_spritesheet.json"):
         super().__init__()
         tmp = cv.imread(image)
         with open(jdata, "rb") as j:

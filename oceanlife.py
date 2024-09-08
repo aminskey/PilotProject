@@ -68,15 +68,15 @@ class Fish(pygame.sprite.Sprite):
         if self.__vel.x < 0:
             tmp = pygame.transform.flip(self.base_image, False, True)
         else:
-            # If not, then reflip the image
+            # If not, then use base image
             # We do not want moonwalking fish
             tmp = self.base_image.copy()
         # rotate the image, based on the angle of the vector
         self.image = pygame.transform.rotate(tmp, -degrees(self.__vel.polar360))
 
         # if the fish magically disappears from the screen, then recenter it
-        if self.rect.centery < 0 or self.rect.centery > self.screen.get_height():
-            self.rect.centery = self.screen.get_rect().centery
+        if not isInBounds(self.rect.center, 0, (0, 0), self.screen.get_size()):
+            self.rect.center = self.screen.get_rect().center
 
         # update position of fish.
         self.rect.centerx += self.__vel.x

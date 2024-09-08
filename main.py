@@ -8,38 +8,59 @@ from oceanlife import Fish
 from swarm import Flock
 from variables import *
 from guiMainMenu import mainMenu
+from simpleImage import SimpleImage, Water
 
 pygame.init()
 
 screen = pygame.display.set_mode((1200, 800), SCALED | FULLSCREEN)
-pygame.display.set_caption("Marine14")
+pygame.display.set_caption("Marine Life")
 
 
 def main():
+    
+    pygame.mixer.music.load("assets/music/InGame/campfire-sulyya-main-version-27140-04-01.mp3")
+    bg = SimpleImage("assets/backgrounds/InGame/Himmel.png", screen.get_size())
+    bg.rect.topleft = (0, 0)
+
+    bottom = SimpleImage("assets/backgrounds/InGame/Havbund.png")
+    bottom.image = pygame.transform.scale_by(bottom.image, screen.get_width()/bottom.image.get_width())
+    bottom.rect = bottom.image.get_rect()
+    bottom.rect.midbottom = screen.get_rect().midbottom
+
+    water = Water()
+    water.image = pygame.transform.scale_by(water.image, screen.get_width()/water.image.get_width())
+    water.rect = water.image.get_rect()
+    water.rect.midbottom = bottom.rect.midtop
+
+    global dTime
+
     # for i in range(10):
     #     fpath = f"assets/fish/{random.choice(listdir('assets/fish/'))}"
     #     if os.path.isfile(fpath):
-    #         tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(0, screen.get_width()),random.randint(0, screen.get_height())))
+    #         tmp = Fish(fpath, random.randrange(1, 5)/10, water.image,(random.randint(0, water.image.get_width()),random.randint(0, water.image.get_height())))
     #         tmp.add(fishGrp)
     fish = Flock(10, screen, 50)
-    bg = pygame.Surface(screen.get_size())
-    bg.fill(BLUE)
-    bg.set_alpha(150)
-    running = True
 
+    running = True
+    pygame.mixer.music.play(0)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN:
                 running = False
                 break
 
+        dTimeUpdate(clock)
         fish.update()
         bubbleGrp.update()
+        water.update(bottom.rect.midtop)
 
-        screen.blit(bg, (0, 0))
-        backBub.draw(screen)
+        bg.draw(screen)
+        # fish.draw(water.image)
         fish.draw()
+        water.draw(screen)
+        backBub.draw(screen)
         frontBub.draw(screen)
+        bottom.draw(screen)
 
         pygame.display.update()
         clock.tick(FPS)
