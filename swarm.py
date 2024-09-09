@@ -39,7 +39,7 @@ class Flock:
         if(sqrt((neighbour.rect.centerx-fish.rect.centerx)**2+(neighbour.rect.centery-fish.rect.centery)**2) <= self.__boidR):
           neighbours.append(neighbour)
           pygame.draw.line(screen, (255, 0, 0), (fish.rect.centerx, fish.rect.centery), (neighbour.rect.centerx, neighbour.rect.centery), 5)
-          # print("found pair")
+          
       
 
       
