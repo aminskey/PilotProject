@@ -4,6 +4,7 @@ import random
 from math import degrees
 from vector import Vector
 from variables import *
+from pygame.locals import *
 
 # The fish class
 class Fish(pygame.sprite.Sprite):
@@ -44,19 +45,19 @@ class Fish(pygame.sprite.Sprite):
         self.loop = loop
 
     # Checking for border collision and handling it
-    def borderCheck(self):
-        if not isInRange(self.rect.centerx, self.base_image.get_width(), 0, self.screen.get_width()):
+    def borderCheck(self, bounds):
+        if not isInRange(self.rect.centerx, self.base_image.get_width(), bounds.x, bounds.topright[0]):
             self.__vel = Vector(-self.__vel.x, self.__vel.y * random.randint(-3, 3) / 5)
             self.rect.centerx += self.__vel.x * 2
-        if not isInRange(self.rect.centery, self.base_image.get_height(), 0, self.screen.get_height()):
+        if not isInRange(self.rect.centery, self.base_image.get_height(), bounds.y, bounds.bottomright[1]):
             self.__vel = Vector(self.__vel.x, -self.__vel.y)
             self.rect.centery += self.__vel.y * 2
 
     # Update function to be run every frame.
-    def update(self):
+    def update(self, bounds):
         # if not loop initiated then handle border collision
         if not self.loop:
-            self.borderCheck()
+            self.borderCheck(bounds)
         else:
             # else if loop == true, then allow panning
             if self.rect.midright[0] < 0:
@@ -83,7 +84,7 @@ class Fish(pygame.sprite.Sprite):
         self.rect.centery += self.__vel.y
     def draw(self):
         # draws fish to screen
-        self.screen.blit(self.image, (self.rect.centerx, self.rect.centery))
+        self.screen.blit(self.image, (self.rect.x, self.rect.y))
     # fish.angle would give the angle of the fish correlated to the x-axis
     @property
     def angle(self):

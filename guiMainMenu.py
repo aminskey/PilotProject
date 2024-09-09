@@ -94,7 +94,7 @@ def main(screen):
         print(dTime)
 
         bubbleGrp.update()
-        fishGrp.update()
+        fishGrp.update(screen.get_rect())
         buttons.update()
 
         screen.fill(OCEANBLUE)
