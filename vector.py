@@ -9,9 +9,17 @@ class Vector:
     def x(self):
         return self.__x
 
+    @x.setter
+    def x(self, o):
+        self.__x = o
+
     @property
     def y(self):
         return self.__y
+
+    @y.setter
+    def y(self, o):
+        self.__y = o
 
     @property
     def tuple(self):

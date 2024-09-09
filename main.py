@@ -1,12 +1,13 @@
 import os.path
+import guiMainMenu
 import random
 import pygame
 
 from pygame.locals import *
 from os import listdir
 from oceanlife import Fish
+from swarm import Flock
 from variables import *
-from guiMainMenu import mainMenu
 from simpleImage import SimpleImage, Water
 
 pygame.init()
@@ -16,6 +17,7 @@ pygame.display.set_caption("Marine Life")
 
 
 def main():
+    
     pygame.mixer.music.load("assets/music/InGame/campfire-sulyya-main-version-27140-04-01.mp3")
     bg = SimpleImage("assets/backgrounds/InGame/Himmel.png", screen.get_size())
     bg.rect.topleft = (0, 0)
@@ -30,14 +32,10 @@ def main():
     water.rect = water.image.get_rect()
     water.rect.midbottom = bottom.rect.midtop
 
+
     global dTime
 
-    for i in range(10):
-        fpath = f"assets/fish/{random.choice(listdir('assets/fish/'))}"
-        if os.path.isfile(fpath):
-            tmp = Fish(fpath, random.randrange(1, 5)/10, water.image,(random.randint(0, water.image.get_width()),random.randint(0, water.image.get_height())))
-            tmp.add(fishGrp)
-
+    fish = Flock(20, screen, 300, water.rect)
 
     running = True
     pygame.mixer.music.play(0)
@@ -48,15 +46,14 @@ def main():
                 break
 
         dTimeUpdate(clock)
-        fishGrp.update()
+        fish.update()
         bubbleGrp.update()
         water.update(bottom.rect.midtop)
 
         bg.draw(screen)
-        fishGrp.draw(water.image)
+        # Ask before pushing
         water.draw(screen)
-        backBub.draw(screen)
-        frontBub.draw(screen)
+        fish.drawOnImage()
         bottom.draw(screen)
 
         pygame.display.update()
@@ -67,6 +64,6 @@ def main():
     pygame.quit()
 
 if __name__ == "__main__":
-    mainMenu(screen)
+    guiMainMenu.main(screen)
     print(os.getcwd())
     main()

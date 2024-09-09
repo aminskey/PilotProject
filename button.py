@@ -46,3 +46,6 @@ class Button(pygame.sprite.Sprite):
     @property
     def activated(self):
         return self.__activated
+
+    def deactivate(self):
+        self.__activated = False

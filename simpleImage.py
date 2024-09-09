@@ -7,10 +7,9 @@ from variables import *
 class SimpleImage(pygame.sprite.Sprite):
     def __init__(self, imageURL, size=-1):
         super().__init__()
-        if size == -1:
-            self.base_image = pygame.image.load(imageURL)
-        elif isinstance(size, tuple):
-            self.base_image = pygame.transform.scale(pygame.image.load(imageURL), size)
+        self.base_image = pygame.image.load(imageURL)
+        if isinstance(size, tuple):
+            self.base_image = pygame.transform.scale(self.base_image, size)
         self.rect = self.base_image.get_rect()
 
         self.image = self.base_image.copy()
