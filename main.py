@@ -1,4 +1,5 @@
 import os.path
+import guiMainMenu
 import random
 import pygame
 
@@ -7,7 +8,6 @@ from os import listdir
 from oceanlife import Fish
 from swarm import Flock
 from variables import *
-from guiMainMenu import mainMenu
 from simpleImage import SimpleImage, Water
 
 pygame.init()
@@ -32,6 +32,8 @@ def main():
     water.rect = water.image.get_rect()
     water.rect.midbottom = bottom.rect.midtop
 
+    bounds = Rect(water.rect.topleft, bottom.rect.topright)
+
     global dTime
 
     # for i in range(10):
@@ -39,7 +41,7 @@ def main():
     #     if os.path.isfile(fpath):
     #         tmp = Fish(fpath, random.randrange(1, 5)/10, water.image,(random.randint(0, water.image.get_width()),random.randint(0, water.image.get_height())))
     #         tmp.add(fishGrp)
-    fish = Flock(20, screen, 300)
+    fish = Flock(20, water.image, 300)
 
     running = True
     pygame.mixer.music.play(0)
@@ -55,12 +57,10 @@ def main():
         water.update(bottom.rect.midtop)
 
         bg.draw(screen)
+        # Ask before pushing
+        fish.drawOnImage()
         water.draw(screen)
-        # Ask before pushing 
-        fish.draw()
         # fish.draw(water.image)
-        backBub.draw(screen)
-        frontBub.draw(screen)
         bottom.draw(screen)
         fish.updateBoid(screen)
 
@@ -72,6 +72,6 @@ def main():
     pygame.quit()
 
 if __name__ == "__main__":
-    mainMenu(screen)
+    guiMainMenu.main(screen)
     print(os.getcwd())
     main()

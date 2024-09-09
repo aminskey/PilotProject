@@ -22,11 +22,11 @@ class Flock:
       if os.path.isfile(fpath):
           tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(0, screen.get_width()),random.randint(0, screen.get_height())))
           self.__fishies.append(tmp)
-  #Alle fisk tegnes
-  def draw(self):
+  # Alle fisk tegnes
+  def drawOnImage(self):
     for fish in self.__fishies:
       fish.draw()
-  #Alle fisk opdateres
+  # Alle fisk opdateres
   def update(self):
     for fish in self.__fishies:
       fish.update()

@@ -82,8 +82,8 @@ class Fish(pygame.sprite.Sprite):
         self.rect.centerx += self.__vel.x
         self.rect.centery += self.__vel.y
     def draw(self):
-        #draws fish to screen
-        self.screen.blit(self.image,(self.rect.centerx, self.rect.centery))
+        # draws fish to screen
+        self.screen.blit(self.image, (self.rect.centerx, self.rect.centery))
     # fish.angle would give the angle of the fish correlated to the x-axis
     @property
     def angle(self):
