@@ -48,7 +48,6 @@ def main():
         fish.update()
         bubbleGrp.update()
         water.update(bottom.rect.midtop)
-
         bg.draw(screen)
         # Ask before pushing
         water.draw(screen)
