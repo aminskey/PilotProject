@@ -1,5 +1,6 @@
 import random
 import pygame
+import guiInfoPage
 
 from pygame.locals import *
 from misc import Bubble
@@ -11,7 +12,10 @@ from button import Button
 
 buttons = pygame.sprite.Group()
 
-def mainMenu(screen):
+
+def main(screen):
+
+
     titleFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 75)
     pFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 25)
 
@@ -29,6 +33,7 @@ def mainMenu(screen):
 
     info = Button(start.image.get_size())
     info.addText(Text("About Us", pFont, OCEANSHADOW), (info.image.get_width()//2, info.image.get_height()//2 - 4))
+    info.fun = lambda:guiInfoPage.main()
 
     exitBtn = Button(start.image.get_size())
     exitBtn.addText(Text("Quit Game", pFont, OCEANSHADOW), (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
@@ -80,11 +85,15 @@ def mainMenu(screen):
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
-                exitBtn()
+                exit()
             if start.activated:
                 for i in allSprites.sprites():
                     i.kill()
                 return
+            elif info.activated:
+                guiInfoPage.main(screen)
+                info.activated = False
+                break
             elif exitBtn.activated:
                 pygame.quit()
                 exit()
@@ -93,7 +102,7 @@ def mainMenu(screen):
         print(dTime)
 
         bubbleGrp.update()
-        fishGrp.update()
+        fishGrp.update(screen.get_rect())
         buttons.update()
 
         screen.fill(OCEANBLUE)

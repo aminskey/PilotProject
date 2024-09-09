@@ -19,6 +19,7 @@ class Button(pygame.sprite.Sprite):
         self.image = self.base_image.copy()
         self.rect = self.image.get_rect()
         self.__activated = False
+        self.fun = None
 
     def crop(self, buff, header):
         x, y, w, h = self.__data["frames"][header]["frame"].values()
@@ -46,3 +47,6 @@ class Button(pygame.sprite.Sprite):
     @property
     def activated(self):
         return self.__activated
+
+    def deactivate(self):
+        self.__activated = False

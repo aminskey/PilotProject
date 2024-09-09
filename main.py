@@ -1,4 +1,5 @@
 import os.path
+import guiMainMenu
 import random
 import pygame
 
@@ -7,7 +8,6 @@ from os import listdir
 from oceanlife import Fish
 from swarm import Flock
 from variables import *
-from guiMainMenu import mainMenu
 from simpleImage import SimpleImage, Water
 
 pygame.init()
@@ -34,18 +34,13 @@ def main():
 
     global dTime
 
-    # for i in range(10):
-    #     fpath = f"assets/fish/{random.choice(listdir('assets/fish/'))}"
-    #     if os.path.isfile(fpath):
-    #         tmp = Fish(fpath, random.randrange(1, 5)/10, water.image,(random.randint(0, water.image.get_width()),random.randint(0, water.image.get_height())))
-    #         tmp.add(fishGrp)
-    fish = Flock(20, screen, 300)
+    fish = Flock(20, screen, 300, water.rect)
 
     running = True
     pygame.mixer.music.play(0)
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN:
+            if event.type == pygame.QUIT:
                 running = False
                 break
 
@@ -53,16 +48,12 @@ def main():
         fish.update()
         bubbleGrp.update()
         water.update(bottom.rect.midtop)
-
         bg.draw(screen)
+        # Ask before pushing
         water.draw(screen)
-        # Ask before pushing 
-        fish.draw()
-        # fish.draw(water.image)
-        backBub.draw(screen)
-        frontBub.draw(screen)
+        fish.drawOnImage()
         bottom.draw(screen)
-        fish.updateBoid(screen)
+        screen.blit(water.overlay, water.rect)
 
         pygame.display.update()
         clock.tick(FPS)
@@ -72,6 +63,6 @@ def main():
     pygame.quit()
 
 if __name__ == "__main__":
-    mainMenu(screen)
+    guiMainMenu.main(screen)
     print(os.getcwd())
     main()
