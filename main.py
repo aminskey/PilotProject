@@ -32,7 +32,6 @@ def main():
     water.rect = water.image.get_rect()
     water.rect.midbottom = bottom.rect.midtop
 
-
     global dTime
 
     fish = Flock(20, screen, 300, water.rect)
@@ -41,7 +40,7 @@ def main():
     pygame.mixer.music.play(0)
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN:
+            if event.type == pygame.QUIT:
                 running = False
                 break
 
@@ -55,6 +54,7 @@ def main():
         water.draw(screen)
         fish.drawOnImage()
         bottom.draw(screen)
+        screen.blit(water.overlay, water.rect)
 
         pygame.display.update()
         clock.tick(FPS)

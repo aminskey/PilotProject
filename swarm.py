@@ -23,7 +23,7 @@ class Flock:
       # self.__fishies.append(Fish(random.random()*600, random.random()*500, random.random()*5,random.random()*5))
       fpath = f"assets/fish/{random.choice(listdir('assets/fish/'))}"
       if os.path.isfile(fpath):
-          tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(0, bounds.topright[0]),random.randint(0, bounds.bottomright[1])))
+          tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(bounds.topleft[0], bounds.topright[0]), random.randint(bounds.topright[1], bounds.bottomright[1])))
           self.__fishies.append(tmp)
   # Alle fisk tegnes
   def drawOnImage(self):

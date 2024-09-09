@@ -22,6 +22,8 @@ class Water(SimpleImage):
     def __init__(self, size=-1):
         super().__init__("assets/backgrounds/InGame/Vand.png", size)
         self.count = 0
+        self.overlay = self.base_image.copy()
+        self.overlay.set_alpha(100)
 
     def update(self, point):
         super().update()

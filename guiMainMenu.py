@@ -12,7 +12,10 @@ from button import Button
 
 buttons = pygame.sprite.Group()
 
+
 def main(screen):
+
+
     titleFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 75)
     pFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 25)
 
@@ -30,6 +33,7 @@ def main(screen):
 
     info = Button(start.image.get_size())
     info.addText(Text("About Us", pFont, OCEANSHADOW), (info.image.get_width()//2, info.image.get_height()//2 - 4))
+    info.fun = lambda:guiInfoPage.main()
 
     exitBtn = Button(start.image.get_size())
     exitBtn.addText(Text("Quit Game", pFont, OCEANSHADOW), (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
@@ -86,6 +90,10 @@ def main(screen):
                 for i in allSprites.sprites():
                     i.kill()
                 return
+            elif info.activated:
+                guiInfoPage.main(screen)
+                info.activated = False
+                break
             elif exitBtn.activated:
                 pygame.quit()
                 exit()
