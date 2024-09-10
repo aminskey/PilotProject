@@ -34,7 +34,7 @@ def main():
 
     global dTime
 
-    fish = Flock(20, screen, 300, water.rect)
+    fish = Flock(20, screen, 200, water.rect)
 
     running = True
     pygame.mixer.music.play(0)
@@ -51,6 +51,7 @@ def main():
         bg.draw(screen)
         # Ask before pushing
         water.draw(screen)
+        fish.updateBoid(screen)
         fish.drawOnImage()
         bottom.draw(screen)
         screen.blit(water.overlay, water.rect)

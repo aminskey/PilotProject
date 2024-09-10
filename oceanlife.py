@@ -99,3 +99,7 @@ class Fish(pygame.sprite.Sprite):
     @property
     def vel(self):
         return self.__vel
+    #set vel of fish
+    @vel.setter
+    def vel(self, vel):
+        self.__vel = vel
