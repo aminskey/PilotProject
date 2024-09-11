@@ -93,7 +93,7 @@ def main(screen):
                 return
             elif info.activated:
                 guiInfoPage.main(screen)
-                info.activated = False
+                info.deactivate()
                 break
             elif exitBtn.activated:
                 pygame.quit()

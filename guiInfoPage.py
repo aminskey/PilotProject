@@ -20,10 +20,9 @@ def main(screen):
     shade.set_alpha(200)
     bg2.set_alpha(100)
 
-    basicFont = pygame.font.Font("assets/fonts/pixelart.ttf", 25)
     scrollVec = Vector(0, 0)
 
-    content = parseMD("README.md", basicFont, screen)
+    content = parseMD("boids.md", 10, screen, textColor=(178, 178, 178), shadow=BLACK)
 
     for i in range(10):
         bub = Bubble(screen, (random.randint(0, screen.get_width()), random.randint(0, screen.get_height())), random.randint(0, 125)/100)
@@ -40,14 +39,17 @@ def main(screen):
                 exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
-                    scrollVec.y = -1
+                    scrollVec.y = 10
                     break
                 if event.key == pygame.K_DOWN:
-                    scrollVec.y = 1
+                    scrollVec.y = -10
                     break
+                if event.key == pygame.K_ESCAPE:
+                    return
             elif event.type == pygame.KEYUP:
                 scrollVec.y = 0
                 break
+
 
         bubbleGrp.update()
         for sprite in content.sprites():
@@ -64,28 +66,64 @@ def main(screen):
         pygame.display.update()
         clock.tick(FPS)
 
-def parseMD(file, script, screen):
+def parseMD(file, margin, screen, **kwargs):
     tmpGrp = pygame.sprite.Group()
+
+    basicFont = pygame.font.Font("assets/fonts/pixelart.ttf", 25)
+    codeFont = pygame.font.Font("assets/fonts/Flexi_IBM_VGA_True.ttf", 25)
+    titleFont = pygame.font.Font("assets/fonts/pixelart.ttf", 75)
+    h3Font = pygame.font.Font("assets/fonts/pixelart.ttf", 30)
+    h2Font = pygame.font.Font("assets/fonts/pixelart.ttf", 50)
+
     with open(file, "rb") as f:
-        buff = f.readlines()
+        buff = f.read().decode().split('\n')
+        buff = " ".join(buff).split(' ')
         f.close()
 
-    i = 0
-    for line in buff:
-        tmp = line.decode().strip("\r\n")
-        set = tmp.split(" ")
-        prevWord = ""
-        j = 0
-        for word in set:
-            if (j+1)*12 > screen.get_width()*3//4:
-                j = 0
-                i += 1
-            tmp = Text(word, script, WHITE)
-            tmp.rect.topleft = (script.size(prevWord)[0], (1+i)*25)
-            tmpGrp.add(tmp)
+    print(buff)
 
-            prevWord = word
-            j+=1
-        i += 1
+    pos = Vector(margin, 0)
+    script = basicFont
+    for word in buff:
+        if "```" in word:
+            if script is not codeFont:
+                script = codeFont
+                margin = 25
+
+            elif script is codeFont:
+                script = basicFont
+                margin = 10
+            pos = Vector(margin, pos.y)
+            continue
+        elif "#" in word and script is not codeFont:
+            script = titleFont
+            if word.count("#") == 2:
+                script = h2Font
+            elif word.count("#") == 3:
+                script = h3Font
+                script.underline = True
+            continue
+
+        if word == "":
+            word = " "
+
+        tmp = Text(word.strip()+" ", script, **kwargs)
+        tmp.rect.topleft = pos.tuple
+        tmpGrp.add(tmp)
+
+        # Prepping position for next word.
+
+        if len(word) > 0:
+            if word[-1] == '\r' or pos.x > screen.get_width() * 3//4:
+                print(pos.y)
+                pos.y += script.size(word)[1]
+                pos.x = margin
+
+                if script is not codeFont:
+                    script = basicFont
+                script.underline = False
+            else:
+                pos.x = tmpGrp.sprites()[-1].rect.topright[0]
+                pos.y = tmpGrp.sprites()[-1].rect.topright[1]
 
     return tmpGrp
