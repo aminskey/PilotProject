@@ -17,7 +17,6 @@ pygame.display.set_caption("Marine Life")
 
 
 def main():
-    
     pygame.mixer.music.load("assets/music/InGame/campfire-sulyya-main-version-27140-04-01.mp3")
     bg = SimpleImage("assets/backgrounds/InGame/Himmel.png", screen.get_size())
     bg.rect.topleft = (0, 0)
