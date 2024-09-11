@@ -22,7 +22,7 @@ def main(screen):
 
     scrollVec = Vector(0, 0)
 
-    content = parseMD("boids.md", 10, screen, textColor=(178, 178, 178), shadow=BLACK)
+    content = parseMD("cpp.md", 10, screen, textColor=(178, 178, 178), shadow=BLACK)
 
     for i in range(10):
         bub = Bubble(screen, (random.randint(0, screen.get_width()), random.randint(0, screen.get_height())), random.randint(0, 125)/100)
@@ -72,8 +72,9 @@ def parseMD(file, margin, screen, **kwargs):
     basicFont = pygame.font.Font("assets/fonts/pixelart.ttf", 25)
     codeFont = pygame.font.Font("assets/fonts/Flexi_IBM_VGA_True.ttf", 25)
     titleFont = pygame.font.Font("assets/fonts/pixelart.ttf", 75)
-    h3Font = pygame.font.Font("assets/fonts/pixelart.ttf", 30)
     h2Font = pygame.font.Font("assets/fonts/pixelart.ttf", 50)
+    h3Font = pygame.font.Font("assets/fonts/pixelart.ttf", 30)
+    h4Font = pygame.font.Font("assets/fonts/pixelart.ttf", 27)
 
     with open(file, "rb") as f:
         buff = f.read().decode().split('\n')
@@ -102,6 +103,8 @@ def parseMD(file, margin, screen, **kwargs):
             elif word.count("#") == 3:
                 script = h3Font
                 script.underline = True
+            elif word.count("#") == 4:
+                script = h4Font
             continue
 
         if word == "":
