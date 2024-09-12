@@ -112,9 +112,9 @@ class Garbage(SimpleImage):
         self.__vel = Vector(0, -1)
     def update(self, bounds):
 
-        self.__vel.x += sin(self.rect.y*0.025)
+        self.__vel.x += sin(self.rect.y)
 
-        if isInRange(self.rect.centery, self.image.get_height(), bounds.y, bounds.midbottom[1]):
+        if isInRange(self.rect.centery, 0, bounds.y, bounds.midbottom[1]):
             addVec(self.rect, self.__vel)
 
         if fish := pygame.sprite.spritecollideany(self, fishGrp):

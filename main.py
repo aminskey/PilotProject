@@ -4,9 +4,8 @@ import random
 import pygame
 
 from pygame.locals import *
-from os import listdir
-from oceanlife import Fish
 from swarm import Flock
+from oceanlife import Garbage
 from variables import *
 from simpleImage import SimpleImage, Water
 
@@ -34,9 +33,11 @@ def main():
     global dTime
 
     fish = Flock(20, screen, 300, water.rect)
-
     for f in fish.fish:
         f.add(fishGrp)
+
+    demoTrash = Garbage("trash-prototype", 1.2)
+    demoTrash.rect.center = screen.get_rect().center
 
     running = True
     pygame.mixer.music.play(0)
@@ -48,11 +49,13 @@ def main():
 
         dTimeUpdate(clock)
         fish.update()
+        demoTrash.update(fish.bounds)
         bubbleGrp.update()
         water.update(bottom.rect.midtop)
         bg.draw(screen)
         # Ask before pushing
         water.draw(screen)
+        screen.blit(demoTrash.image, demoTrash.rect)
         fish.drawOnImage()
         bottom.draw(screen)
         screen.blit(water.overlay, water.rect)
