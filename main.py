@@ -54,7 +54,7 @@ def main():
                 running = False
                 break
 
-        border.update(water.rect.topleft, bottom.rect.topright)
+        border.y = water.rect.y
 
         dTimeUpdate(clock)
         fish.update()
