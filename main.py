@@ -35,6 +35,9 @@ def main():
 
     fish = Flock(20, screen, 300, water.rect)
 
+    for f in fish.fish:
+        f.add(fishGrp)
+
     running = True
     pygame.mixer.music.play(0)
     while running:

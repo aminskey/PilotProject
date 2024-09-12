@@ -1,7 +1,7 @@
 import pygame
 import random
 
-from math import degrees
+from math import degrees, sin
 from vector import Vector
 from variables import *
 from simpleImage import SimpleImage
@@ -111,5 +111,12 @@ class Garbage(SimpleImage):
 
         self.__vel = Vector(0, -1)
     def update(self, bounds):
+
+        self.__vel.x += sin(self.rect.y*0.025)
+
         if isInRange(self.rect.centery, self.image.get_height(), bounds.y, bounds.midbottom[1]):
             addVec(self.rect, self.__vel)
+
+        if fish := pygame.sprite.spritecollideany(self, fishGrp):
+            fish.kill()
+            self.kill()
