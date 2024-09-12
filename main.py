@@ -47,13 +47,14 @@ def main():
         tmp.add(trashGrp)
 
     running = True
-    pygame.mixer.music.play(0)
+    #pygame.mixer.music.play(0)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 break
 
+        border.update(water.rect.topleft, (bottom.rect.topright[0], bottom.rect.y - water.rect.y))
         border.y = water.rect.y
 
         dTimeUpdate(clock)
@@ -62,6 +63,7 @@ def main():
         bubbleGrp.update()
         water.update(bottom.rect.midtop)
         bg.draw(screen)
+
         # Ask before pushing
         water.draw(screen)
         trashGrp.draw(screen)

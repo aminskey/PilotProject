@@ -115,8 +115,9 @@ class Garbage(SimpleImage):
         self.canKill = canKill
 
         self.__vel = Vector(random.randint(-10,10)/20, -random.randint(1, 5)/10)
+        self.__acc = Vector(0, 0)
 
-    def seperation(self, grp: pygame.sprite.Group,  rad: int, factor: float):
+    def seperation(self, grp: pygame.sprite.Group, rad: int, factor: float):
         sep_vector = Vector(0, 0)
         count = 0
 
@@ -135,14 +136,13 @@ class Garbage(SimpleImage):
 
     def update(self, bounds):
         if not isInRange(self.rect.centery, 0, bounds.y, bounds.midbottom[1]):
-            if self.__vel.y < 1:
-                self.__vel.y += 0.25
+            self.__vel.y += 0.25
         else:
-            if self.__vel.y > -1:
-                self.__vel.y -= 0.25
+            self.__vel.y -= 0.25
 
-        if not isInRange(self.rect.centerx, -self.image.get_width(), bounds.x, bounds.topright[0]):
-            self.kill()
+        if not isInRange(self.rect.centerx, self.image.get_width(), bounds.x, bounds.topright[0]):
+            self.__vel.x *= -1
+            addVec(self.rect, self.__vel*2)
 
         if self.canKill:
             if fish := pygame.sprite.spritecollideany(self, fishGrp):
@@ -150,10 +150,14 @@ class Garbage(SimpleImage):
                 fish.flock.fishies.remove(fish)
                 tmp = Garbage(None, 0.125, "assets/misc/Fisk_Skelet.png", canKill=False)
                 tmp.__vel = fish.vel
-                tmp.__vel.y = -1
+                tmp.__acc.y = 0.251
                 tmp.rect.center = fish.rect.center
                 trashGrp.add(tmp)
-                #self.kill()
 
-        self.__vel += self.seperation(trashGrp, 100, 1)
+        if self.__vel.length > 3:
+            self.__vel /= self.__vel.length
+            self.__vel *= 3
+
+        self.__vel += self.seperation(trashGrp, self.image.get_height(), 2)
+        self.__vel += self.__acc
         addVec(self.rect, self.__vel)
