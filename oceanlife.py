@@ -80,8 +80,9 @@ class Fish(pygame.sprite.Sprite):
             self.rect.center = self.screen.get_rect().center
 
         # update position of fish.
-        self.rect.centerx += self.__vel.x
-        self.rect.centery += self.__vel.y
+        #self.rect.centerx += self.__vel.x * dTime
+        #self.rect.centery += self.__vel.y * dTime
+        addVec(self.rect, self.__vel * dTime)
     def draw(self):
         # draws fish to screen
         self.screen.blit(self.image, (self.rect.x, self.rect.y))

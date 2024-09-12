@@ -35,3 +35,7 @@ def dTimeUpdate(clock):
     except:
         if dTime <= 0:
             dTime = stdFPS/FPS
+
+def addVec(rect, vec):
+    rect.x += vec.x
+    rect.y += vec.y
