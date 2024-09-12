@@ -4,6 +4,7 @@ import random
 from math import degrees
 from vector import Vector
 from variables import *
+from simpleImage import SimpleImage
 from pygame.locals import *
 
 # The fish class
@@ -100,3 +101,15 @@ class Fish(pygame.sprite.Sprite):
     @property
     def vel(self):
         return self.__vel
+
+class Garbage(SimpleImage):
+    def __init__(self, type, scale):
+        super().__init__(f"assets/trash/{type}.png")
+        self.base_image = pygame.transform.scale_by(self.base_image, scale)
+        self.image = self.base_image.copy()
+        self.rect = self.image.get_rect()
+
+        self.__vel = Vector(0, -1)
+    def update(self, bounds):
+        if isInRange(self.rect.centery, self.image.get_height(), bounds.y, bounds.midbottom[1]):
+            addVec(self.rect, self.__vel)
