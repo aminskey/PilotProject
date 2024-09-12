@@ -37,6 +37,7 @@ class Fish(pygame.sprite.Sprite):
 
         # setting display to screen
         self.screen = screen
+        self.flock = None
 
         # assigning velocity vector
         if v[0] != 0 and v[1] != 0:
@@ -48,10 +49,10 @@ class Fish(pygame.sprite.Sprite):
     # Checking for border collision and handling it
     def borderCheck(self, bounds):
         if not isInRange(self.rect.centerx, self.base_image.get_width(), bounds.x, bounds.topright[0]):
-            self.__vel = Vector(-self.__vel.x, self.__vel.y * random.randint(-3, 3) / 5)
+            self.__vel.x += 1 - (self.rect.centerx / 300)
             self.rect.centerx += self.__vel.x * 2
         if not isInRange(self.rect.centery, self.base_image.get_height(), bounds.y, bounds.bottomright[1]):
-            self.__vel = Vector(self.__vel.x, -self.__vel.y)
+            self.__vel.y += 1 - (self.rect.centery / 300)
             self.rect.centery += self.__vel.y * 2
 
     # Update function to be run every frame.
@@ -103,20 +104,34 @@ class Fish(pygame.sprite.Sprite):
         return self.__vel
 
 class Garbage(SimpleImage):
-    def __init__(self, type, scale):
-        super().__init__(f"assets/trash/{type}.png")
+    def __init__(self, type, scale, image=None):
+        if isinstance(image, str):
+            super().__init__(image)
+        else:
+            super().__init__(f"assets/trash/{type}.png")
         self.base_image = pygame.transform.scale_by(self.base_image, scale)
         self.image = self.base_image.copy()
         self.rect = self.image.get_rect()
 
-        self.__vel = Vector(0, -1)
+        self.__vel = Vector(random.randint(-10,10)/20, -random.randint(1, 5)/10)
     def update(self, bounds):
+        addVec(self.rect, self.__vel)
+        if not isInRange(self.rect.centery, 0, bounds.y, bounds.midbottom[1]):
+            if self.__vel.y < 1:
+                self.__vel.y += 0.25
+        else:
+            if self.__vel.y > -1:
+                self.__vel.y -= 0.25
 
-        self.__vel.x += sin(self.rect.y)
-
-        if isInRange(self.rect.centery, 0, bounds.y, bounds.midbottom[1]):
-            addVec(self.rect, self.__vel)
+        if not isInRange(self.rect.centerx, -self.image.get_width(), bounds.x, bounds.topright[0]):
+            self.kill()
 
         if fish := pygame.sprite.spritecollideany(self, fishGrp):
             fish.kill()
-            self.kill()
+            fish.flock.fishies.remove(fish)
+            tmp = Garbage(None, 0.125, "assets/misc/Fisk_Skelet.png")
+            tmp.__vel = fish.vel
+            tmp.__vel.y = -1
+            tmp.rect.center = fish.rect.center
+            trashGrp.add(tmp)
+            #self.kill()

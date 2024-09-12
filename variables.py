@@ -21,6 +21,7 @@ bubbleGrp = pygame.sprite.Group()
 frontBub = pygame.sprite.Group()
 backBub = pygame.sprite.Group()
 allSprites = pygame.sprite.Group()
+trashGrp = pygame.sprite.Group()
 
 def isInRange(x, offset, min, max):
     return (x - offset) > min and (x + offset) < max
