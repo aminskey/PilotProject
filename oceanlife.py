@@ -55,6 +55,23 @@ class Fish(pygame.sprite.Sprite):
             self.__vel.y += 1 - (self.rect.centery / 300)
             self.rect.centery += self.__vel.y * 2
 
+    # Just playing around with dispersion/seperation.
+    def avoidTrash(self, grp, rad, fac):
+        count = 0
+        vec = Vector(0, 0)
+
+        for sprite in grp.sprites():
+            if sprite != self:
+                if 0 < (dst := dist(self.rect, sprite.rect)) < rad:
+                    tmp = self.pos - sprite.pos
+                    tmp /= tmp.length
+                    tmp /= dst
+                    vec += tmp
+                    count += 1
+        if count > 0:
+            vec /= count
+        return vec * fac
+
     # Update function to be run every frame.
     def update(self, bounds):
         # if not loop initiated then handle border collision
@@ -84,6 +101,7 @@ class Fish(pygame.sprite.Sprite):
         # update position of fish.
         #self.rect.centerx += self.__vel.x * dTime
         #self.rect.centery += self.__vel.y * dTime
+        self.__vel += self.avoidTrash(trashGrp, max(self.image.get_width(), self.image.get_height())*5, 4)
         addVec(self.rect, self.__vel * dTime)
     def draw(self):
         # draws fish to screen
