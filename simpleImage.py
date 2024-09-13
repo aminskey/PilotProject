@@ -2,6 +2,7 @@ import pygame
 
 from math import sin
 from variables import *
+from vector import Vector
 
 
 class SimpleImage(pygame.sprite.Sprite):
@@ -13,6 +14,11 @@ class SimpleImage(pygame.sprite.Sprite):
         self.rect = self.base_image.get_rect()
 
         self.image = self.base_image.copy()
+
+    @property
+    def pos(self):
+        return Vector(self.rect.x, self.rect.y)
+
     def draw(self, screen):
         screen.blit(self.image, self.rect)
     def update(self):

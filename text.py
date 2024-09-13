@@ -8,9 +8,9 @@ class Text(pygame.sprite.Sprite):
         super().__init__()
 
         img = script.render(msg, None, textColor)
-        if not shadow:
-            self.image = img.copy()
-        else:
+        # If shadow is not None, then we must expect it to be the shadow color
+
+        if isinstance(shadow, tuple) and len(shadow) == 3:
             self.image = pygame.Surface((img.get_width()*1.02, img.get_height()*1.02)).convert_alpha()
             self.image.fill((23, 16, 1))
             self.image.set_colorkey((23, 16, 1))
@@ -19,7 +19,8 @@ class Text(pygame.sprite.Sprite):
 
             self.image.blit(shadowText.image, shadowText.rect)
             self.image.blit(img, (0, 0))
-
+        else:
+            self.image = img.copy()
         self.rect = self.image.get_rect()
         self.color = textColor
         self.rect.center = pos

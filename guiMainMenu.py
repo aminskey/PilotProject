@@ -80,7 +80,7 @@ def main(screen):
                 backBub.add(bub)
         allSprites.add(bub, bgFish)
 
-    pygame.mixer.music.play()
+    #pygame.mixer.music.play()
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -92,7 +92,7 @@ def main(screen):
                 return
             elif info.activated:
                 guiInfoPage.main(screen)
-                info.activated = False
+                info.deactivate()
                 break
             elif exitBtn.activated:
                 pygame.quit()
