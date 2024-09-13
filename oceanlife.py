@@ -37,6 +37,7 @@ class Fish(pygame.sprite.Sprite):
 
         # setting display to screen
         self.screen = screen
+        self.flock = None
 
         # assigning velocity vector
         if v[0] != 0 and v[1] != 0:
@@ -48,11 +49,28 @@ class Fish(pygame.sprite.Sprite):
     # Checking for border collision and handling it
     def borderCheck(self, bounds):
         if not isInRange(self.rect.centerx, self.base_image.get_width(), bounds.x, bounds.topright[0]):
-            self.__vel = Vector(-self.__vel.x, self.__vel.y * random.randint(-3, 3) / 5)
+            self.__vel.x += 1 - (self.rect.centerx / 300)
             self.rect.centerx += self.__vel.x * 2
         if not isInRange(self.rect.centery, self.base_image.get_height(), bounds.y, bounds.bottomright[1]):
-            self.__vel = Vector(self.__vel.x, -self.__vel.y)
+            self.__vel.y += 1 - (self.rect.centery / 300)
             self.rect.centery += self.__vel.y * 2
+
+    # Just playing around with dispersion/seperation.
+    def avoidTrash(self, grp, rad, fac):
+        count = 0
+        vec = Vector(0, 0)
+
+        for sprite in grp.sprites():
+            if sprite != self:
+                if 0 < (dst := dist(self.rect, sprite.rect)) < rad:
+                    tmp = self.pos - sprite.pos
+                    tmp /= tmp.length
+                    tmp /= dst
+                    vec += tmp
+                    count += 1
+        if count > 0:
+            vec /= count
+        return vec * fac
 
     # Update function to be run every frame.
     def update(self, bounds):
@@ -83,6 +101,7 @@ class Fish(pygame.sprite.Sprite):
         # update position of fish.
         #self.rect.centerx += self.__vel.x * dTime
         #self.rect.centery += self.__vel.y * dTime
+        self.__vel += self.avoidTrash(trashGrp, max(self.image.get_width(), self.image.get_height())*5, 4)
         addVec(self.rect, self.__vel * dTime)
     def draw(self):
         # draws fish to screen
@@ -95,7 +114,7 @@ class Fish(pygame.sprite.Sprite):
     # return pos of fish
     @property
     def pos(self):
-        return self.rect.center
+        return Vector(self.rect.x, self.rect.y)
 
     # return vel of fish
     @property
@@ -103,20 +122,60 @@ class Fish(pygame.sprite.Sprite):
         return self.__vel
 
 class Garbage(SimpleImage):
-    def __init__(self, type, scale):
-        super().__init__(f"assets/trash/{type}.png")
+    def __init__(self, type, scale, image=None, canKill=True):
+        if isinstance(image, str):
+            super().__init__(image)
+        else:
+            super().__init__(f"assets/trash/{type}.png")
         self.base_image = pygame.transform.scale_by(self.base_image, scale)
         self.image = self.base_image.copy()
         self.rect = self.image.get_rect()
+        self.canKill = canKill
 
-        self.__vel = Vector(0, -1)
+        self.__vel = Vector(random.randint(-10,10)/20, -random.randint(1, 5)/10)
+        self.__acc = Vector(0, 0)
+
+    def seperation(self, grp: pygame.sprite.Group, rad: int, factor: float):
+        sep_vector = Vector(0, 0)
+        count = 0
+
+        for t in grp.sprites():
+            if t != self:
+                if 0 < (gap := dist(t.rect, self.rect)) < rad:
+                    tmp = self.pos - t.pos
+                    tmp /= tmp.length
+                    tmp /= gap
+                    sep_vector += tmp
+                    count += 1
+
+        if count > 0:
+            sep_vector /= count
+        return sep_vector * factor
+
     def update(self, bounds):
+        if not isInRange(self.rect.centery, 0, bounds.y, bounds.midbottom[1]):
+            self.__vel.y += 0.25
+        else:
+            self.__vel.y -= 0.25
 
-        self.__vel.x += sin(self.rect.y)
+        if not isInRange(self.rect.centerx, self.image.get_width(), bounds.x, bounds.topright[0]):
+            self.__vel.x *= -1
+            addVec(self.rect, self.__vel*2)
 
-        if isInRange(self.rect.centery, 0, bounds.y, bounds.midbottom[1]):
-            addVec(self.rect, self.__vel)
+        if self.canKill:
+            if fish := pygame.sprite.spritecollideany(self, fishGrp):
+                fish.kill()
+                fish.flock.fishies.remove(fish)
+                tmp = Garbage(None, 0.125, "assets/misc/Fisk_Skelet.png", canKill=False)
+                tmp.__vel = fish.vel
+                tmp.__acc.y = 0.251
+                tmp.rect.center = fish.rect.center
+                trashGrp.add(tmp)
 
-        if fish := pygame.sprite.spritecollideany(self, fishGrp):
-            fish.kill()
-            self.kill()
+        if self.__vel.length > 3:
+            self.__vel /= self.__vel.length
+            self.__vel *= 3
+
+        self.__vel += self.seperation(trashGrp, self.image.get_height(), 2)
+        self.__vel += self.__acc
+        addVec(self.rect, self.__vel)

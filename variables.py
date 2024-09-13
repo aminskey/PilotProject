@@ -1,5 +1,7 @@
 import pygame
 
+from math import sqrt
+
 FPS = 60
 stdFPS = 45
 
@@ -21,6 +23,7 @@ bubbleGrp = pygame.sprite.Group()
 frontBub = pygame.sprite.Group()
 backBub = pygame.sprite.Group()
 allSprites = pygame.sprite.Group()
+trashGrp = pygame.sprite.Group()
 
 def isInRange(x, offset, min, max):
     return (x - offset) > min and (x + offset) < max
@@ -39,3 +42,8 @@ def dTimeUpdate(clock):
 def addVec(rect, vec):
     rect.x += vec.x
     rect.y += vec.y
+def subVec(rect, vec):
+    addVec(rect, -vec)
+
+def dist(p1, p2):
+    return sqrt((p2.x - p1.x)**2 + (p2.y - p1.y)**2)

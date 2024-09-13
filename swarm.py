@@ -25,9 +25,10 @@ class Flock:
       if os.path.isfile(fpath):
           tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(bounds.topleft[0], bounds.topright[0]), random.randint(bounds.topright[1], bounds.bottomright[1])))
           self.__fishies.append(tmp)
+          tmp.flock = self
 
   @property
-  def fish(self):
+  def fishies(self):
     return self.__fishies
 
   # Alle fisk tegnes

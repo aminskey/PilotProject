@@ -1,4 +1,5 @@
 import os.path
+import os
 import guiMainMenu
 import random
 import pygame
@@ -32,30 +33,40 @@ def main():
 
     global dTime
 
-    fish = Flock(20, screen, 300, water.rect)
-    for f in fish.fish:
+    border = Rect(water.rect.topleft, bottom.rect.topright)
+
+    fish = Flock(20, screen, 300, border)
+    for f in fish.fishies:
         f.add(fishGrp)
 
-    demoTrash = Garbage("trash-prototype", 1.2)
-    demoTrash.rect.center = screen.get_rect().center
+    for i in range(10):
+        tmp = Garbage(random.choice(os.listdir("assets/trash"))[:-4], 0.5)
+        tmp.rect.centery = screen.get_height()//2
+        tmp.rect.centerx = random.randint(screen.get_width()//4, screen.get_width() * 3//4)
+
+        tmp.add(trashGrp)
 
     running = True
-    pygame.mixer.music.play(0)
+    #pygame.mixer.music.play(0)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 break
 
+        border.update(water.rect.topleft, (bottom.rect.topright[0], bottom.rect.y - water.rect.y))
+        border.y = water.rect.y
+
         dTimeUpdate(clock)
         fish.update()
-        demoTrash.update(fish.bounds)
+        trashGrp.update(border)
         bubbleGrp.update()
         water.update(bottom.rect.midtop)
         bg.draw(screen)
+
         # Ask before pushing
         water.draw(screen)
-        screen.blit(demoTrash.image, demoTrash.rect)
+        trashGrp.draw(screen)
         fish.drawOnImage()
         bottom.draw(screen)
         screen.blit(water.overlay, water.rect)

@@ -80,8 +80,7 @@ def main(screen):
                 backBub.add(bub)
         allSprites.add(bub, bgFish)
 
-    pygame.mixer.music.play()
-    pygame.mixer.music.set_volume(0)
+    #pygame.mixer.music.play()
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
