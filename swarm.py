@@ -23,7 +23,7 @@ class Flock:
 
     self.bounds = bounds
     #Fiskene bliver genereret
-    for i in range(0, self.__amount + 1):
+    for i in range(1, self.__amount):
       # self.__fishies.append(Fish(random.random()*600, random.random()*500, random.random()*5,random.random()*5))
       fpath = f"assets/fish/{random.choice(listdir('assets/fish/'))}"
       if os.path.isfile(fpath):
@@ -35,6 +35,14 @@ class Flock:
   def fishies(self):
     return self.__fishies
 
+  @property
+  def length(self):
+    return len(self.__fishies)
+
+  @property
+  def maxAmount(self):
+    return self.__amount
+
   # Alle fisk tegnes
   def drawOnImage(self):
     for fish in self.__fishies:
@@ -45,11 +53,10 @@ class Flock:
       fish.update(self.bounds)
   def react(self, leftClick, rightClick):
     for fish in self.__fishies:
-      if(leftClick == True):
-        fish.attract()
+      fish.attract()
       if(rightClick == True):
         fish.avoid()
-  def updateBoid(self, screen):
+  def updateBoid(self):
     #opdaterer alle fisk i relation til de andre
     for fish in self.__fishies:
       #finder alle fisks naboer indenfor radiussen boidR

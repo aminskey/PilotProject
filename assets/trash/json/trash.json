@@ -1,0 +1,24 @@
+{
+  "list" : [
+    {
+      "type": "Daase",
+      "image": "assets/trash/images/Daase.png",
+      "acc_y": -0.25
+    },
+    {
+      "type": "Glasflaske",
+      "image": "assets/trash/images/Glasflaske.png",
+      "acc_y": 0.25
+    },
+    {
+      "type": "Maddaase",
+      "image": "assets/trash/images/Maddaase.png",
+      "acc_y": 0.25
+    },
+    {
+      "type": "Plastik_flaske",
+      "image": "assets/trash/images/Plastik_flaske.png",
+      "acc_y": -0.25
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 import random
 import pygame
+
+import guiGameOver
 import guiInfoPage
 
 from pygame.locals import *
@@ -39,7 +41,7 @@ def main(screen):
     exitBtn.addText(Text("Quit Game", pFont, OCEANSHADOW), (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
 
     credBtn = Button(start.image.get_size())
-    credBtn.addText(Text("Credits", pFont, OCEANSHADOW),
+    credBtn.addText(Text("InDev", pFont, OCEANSHADOW),
                     (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
 
     start.rect.topright = title.rect.bottomright + Vector(-10, 40)
@@ -67,7 +69,7 @@ def main(screen):
 
         if i < 3:
             bgFish = Fish("assets/fish/secretFish/fish2.png", random.randint(1, 5), screen,
-                          (screen.get_width() // 2 + random.choice((-50, 50)), screen.get_height() // 2 + random.choice((-50, 50))))
+                          (screen.get_width() // 2 + random.choice((-50, 50)), screen.get_height() // 2 + random.choice((-50, 50))), npc=True)
             fishGrp.add(bgFish)
 
         if not pygame.sprite.spritecollideany(bub, bubbleGrp):
@@ -80,7 +82,7 @@ def main(screen):
                 backBub.add(bub)
         allSprites.add(bub, bgFish)
 
-    #pygame.mixer.music.play()
+    pygame.mixer.music.play()
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -93,6 +95,10 @@ def main(screen):
             elif info.activated:
                 guiInfoPage.main(screen)
                 info.deactivate()
+                break
+            elif credBtn.activated:
+                guiGameOver.gameOver(screen)
+                credBtn.deactivate()
                 break
             elif exitBtn.activated:
                 pygame.quit()
