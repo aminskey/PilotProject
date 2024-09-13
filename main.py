@@ -33,6 +33,7 @@ def main():
 
     global dTime
 
+
     border = Rect(water.rect.topleft, bottom.rect.topright)
 
     fish = Flock(20, screen, 300, border)
@@ -58,6 +59,8 @@ def main():
         border.y = water.rect.y
 
         dTimeUpdate(clock)
+        fish.updateBoid(screen)
+        fish.react(pygame.mouse.get_pressed()[0], pygame.mouse.get_pressed()[2])
         fish.update()
         trashGrp.update(border)
         bubbleGrp.update()
