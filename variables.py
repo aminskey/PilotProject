@@ -15,6 +15,7 @@ OCEANBLUE = (30, 150, 230)
 OCEANSHADOW = (23, 67, 117)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+YELLOW = (255, 255, 0)
 
 clock = pygame.time.Clock()
 

@@ -19,7 +19,7 @@ class Fish(pygame.sprite.Sprite):
             - (v) Tuple representing velocity vector
             - (loop) if the fish should loop on screen.
     """
-    def __init__(self, image, sizeF, screen, pos, v=(0, 0), loop=False):
+    def __init__(self, image, sizeF, screen, pos, v=(0, 0), npc=False):
         # calling parent constructor
         super().__init__()
 
@@ -37,16 +37,42 @@ class Fish(pygame.sprite.Sprite):
 
         # setting display to screen
         self.screen = screen
+
+        #strength of border avoidance
+        self.__p = 4
+
+        #distance at which borders are detected
+
+        self.__vision = 10
+
+        self.__maxSpeed = 6
+
         self.flock = None
+
 
         # assigning velocity vector
         if v[0] != 0 and v[1] != 0:
             self.__vel = Vector(v[0] * dTime, v[1] * dTime)
         else:
             self.__vel = Vector(random.choice((-2, 2)) * dTime, random.choice((-1, 1)) * dTime)
-        self.loop = loop
+        self.npc = npc
 
     # Checking for border collision and handling it
+    def screenConfinementX2(self, bounds):
+        if ((self.rect.centerx < self.__vision + bounds.x + 100)):
+            return Vector(self.__vel.x  + (1 - ((self.rect.centerx-100)/self.__vision))*self.__p, self.__vel.y)
+        elif (self.rect.centerx > bounds.bottomright[0]-self.__vision):
+            return Vector(self.__vel.x - (1 - ((self.rect.centerx-bounds.bottomright[0])/self.__vision))*self.__p, self.__vel.y)
+        else:
+            return self.__vel
+    def screenConfinementY2(self, bounds):
+        if self.rect.centery < bounds.y:
+            return Vector(self.__vel.x, self.__vel.y - (1 - (self.rect.centery/self.__vision))*self.__p)
+        elif self.rect.centery > bounds.bottomright[1] - self.__vision:
+            return Vector(self.__vel.x, self.__vel.y - (1 - ((self.rect.centery-bounds.bottomright[1])/self.__vision))*self.__p)
+        else:
+            return self.__vel
+
     def borderCheck(self, bounds):
         if not isInRange(self.rect.centerx, self.base_image.get_width(), bounds.x, bounds.topright[0]):
             self.__vel.x += 1 - (self.rect.centerx / 300)
@@ -75,14 +101,13 @@ class Fish(pygame.sprite.Sprite):
     # Update function to be run every frame.
     def update(self, bounds):
         # if not loop initiated then handle border collision
-        if not self.loop:
-            self.borderCheck(bounds)
+        if not self.npc:
+            self.__vel.x = self.screenConfinementX2(bounds).x
+            self.__vel.y = self.screenConfinementY2(bounds).y
         else:
             # else if loop == true, then allow panning
-            if self.rect.midright[0] < 0:
-                self.rect.x = self.screen.get_width()
-            elif self.rect.x > self.screen.get_width():
-                self.rect.x = 0
+            self.borderCheck(bounds)
+            self.__vel = self.__vel/self.__vel.length
 
         # if the fish is moving backwards, then flip the image.
         if self.__vel.x < 0:
@@ -92,20 +117,32 @@ class Fish(pygame.sprite.Sprite):
             # We do not want moonwalking fish
             tmp = self.base_image.copy()
         # rotate the image, based on the angle of the vector
+        pos = self.rect.center
         self.image = pygame.transform.rotate(tmp, -degrees(self.__vel.polar360))
+        self.rect = self.image.get_rect()
+        self.rect.center = pos
 
         # if the fish magically disappears from the screen, then recenter it
         if not isInBounds(self.rect.center, 0, (0, 0), self.screen.get_size()):
             self.rect.center = self.screen.get_rect().center
 
         # update position of fish.
+        self.__vel = self.__vel/self.__vel.getLength()*self.__maxSpeed
+        #self.rect.centerx += self.__vel.x
+        #self.rect.centery += self.__vel.y
+
         #self.rect.centerx += self.__vel.x * dTime
         #self.rect.centery += self.__vel.y * dTime
-        self.__vel += self.avoidTrash(trashGrp, max(self.image.get_width(), self.image.get_height())*5, 4)
         addVec(self.rect, self.__vel * dTime)
+
     def draw(self):
         # draws fish to screen
         self.screen.blit(self.image, (self.rect.x, self.rect.y))
+    #make the fish react to mouse
+    def attract(self):
+        self.__vel = self.__vel + ((Vector(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])) - Vector(self.rect.centerx, self.rect.centery))*0.004
+    def avoid(self):
+        self.__vel = self.__vel + (Vector(self.rect.centerx, self.rect.centery) - (Vector(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])))*0.03
     # fish.angle would give the angle of the fish correlated to the x-axis
     @property
     def angle(self):
@@ -121,19 +158,25 @@ class Fish(pygame.sprite.Sprite):
     def vel(self):
         return self.__vel
 
+    #set vel of fish
+    @vel.setter
+    def vel(self, vel):
+        self.__vel = vel
+
+
 class Garbage(SimpleImage):
     def __init__(self, type, scale, image=None, canKill=True):
         if isinstance(image, str):
             super().__init__(image)
         else:
-            super().__init__(f"assets/trash/{type}.png")
+            super().__init__(f"assets/trash/images/{type}.png")
         self.base_image = pygame.transform.scale_by(self.base_image, scale)
         self.image = self.base_image.copy()
         self.rect = self.image.get_rect()
         self.canKill = canKill
 
-        self.__vel = Vector(random.randint(-10,10)/20, -random.randint(1, 5)/10)
-        self.__acc = Vector(0, 0)
+        self.vel = Vector(random.randint(-10, 10) / 20, -random.randint(1, 5) / 10)
+        self.acc = Vector(0, 0)
 
     def seperation(self, grp: pygame.sprite.Group, rad: int, factor: float):
         sep_vector = Vector(0, 0)
@@ -153,29 +196,34 @@ class Garbage(SimpleImage):
         return sep_vector * factor
 
     def update(self, bounds):
-        if not isInRange(self.rect.centery, 0, bounds.y, bounds.midbottom[1]):
-            self.__vel.y += 0.25
+        if self.rect.centery < bounds.y:
+            self.vel.y += 0.15
+        elif self.rect.midbottom[1] > bounds.midbottom[1]:
+            self.vel = Vector(0, 0)
+            self.acc = Vector(0, 0)
         else:
-            self.__vel.y -= 0.25
+            self.vel += self.acc
 
-        if not isInRange(self.rect.centerx, self.image.get_width(), bounds.x, bounds.topright[0]):
-            self.__vel.x *= -1
-            addVec(self.rect, self.__vel*2)
+        if not isInRange(self.rect.centerx, -self.image.get_width()*3, bounds.x, bounds.topright[0]):
+            self.kill()
 
         if self.canKill:
             if fish := pygame.sprite.spritecollideany(self, fishGrp):
                 fish.kill()
                 fish.flock.fishies.remove(fish)
+
                 tmp = Garbage(None, 0.125, "assets/misc/Fisk_Skelet.png", canKill=False)
-                tmp.__vel = fish.vel
-                tmp.__acc.y = 0.251
+                tmp.vel = fish.vel
+                tmp.acc.y = 0.251
                 tmp.rect.center = fish.rect.center
                 trashGrp.add(tmp)
 
-        if self.__vel.length > 3:
-            self.__vel /= self.__vel.length
-            self.__vel *= 3
+                self.kill()
 
-        self.__vel += self.seperation(trashGrp, self.image.get_height(), 2)
-        self.__vel += self.__acc
-        addVec(self.rect, self.__vel)
+        if self.vel.length > 3:
+            self.vel /= self.vel.length
+            self.vel *= 3
+
+        self.vel += self.seperation(trashGrp, self.image.get_height(), 2)
+        addVec(self.rect, self.vel * dTime)
+

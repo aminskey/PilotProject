@@ -20,7 +20,8 @@ class Vector:
     @y.setter
     def y(self, o):
         self.__y = o
-
+    def getLength(self):
+        return(sqrt(self.__x**2+self.__y**2))
     @property
     def tuple(self):
         return (self.__x, self.__y)
