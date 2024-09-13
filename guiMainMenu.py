@@ -3,6 +3,7 @@ import pygame
 
 import guiGameOver
 import guiInfoPage
+import main as entrypoint
 
 from pygame.locals import *
 from misc import Bubble
@@ -70,6 +71,7 @@ def main(screen):
         if i < 3:
             bgFish = Fish("assets/fish/secretFish/fish2.png", random.randint(1, 5), screen,
                           (screen.get_width() // 2 + random.choice((-50, 50)), screen.get_height() // 2 + random.choice((-50, 50))), npc=True)
+            bgFish.vel /= bgFish.vel.length
             fishGrp.add(bgFish)
 
         if not pygame.sprite.spritecollideany(bub, bubbleGrp):
@@ -91,6 +93,7 @@ def main(screen):
             if start.activated:
                 for i in allSprites.sprites():
                     i.kill()
+                entrypoint.main()
                 return
             elif info.activated:
                 guiInfoPage.main(screen)
@@ -106,6 +109,10 @@ def main(screen):
 
         dTimeUpdate(clock)
         print(dTime)
+
+        for fish in fishGrp.sprites():
+            fish.vel /= fish.vel.length*1.1
+
 
         bubbleGrp.update()
         fishGrp.update(screen.get_rect())

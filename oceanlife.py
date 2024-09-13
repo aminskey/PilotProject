@@ -1,5 +1,6 @@
 import pygame
 import random
+import os
 
 from math import degrees, sin
 from vector import Vector
@@ -42,11 +43,8 @@ class Fish(pygame.sprite.Sprite):
         self.__p = 4
 
         #distance at which borders are detected
-
         self.__vision = 10
-
         self.__maxSpeed = 6
-
         self.flock = None
 
 
@@ -196,13 +194,19 @@ class Garbage(SimpleImage):
         return sep_vector * factor
 
     def update(self, bounds):
+        if t := pygame.sprite.spritecollideany(self, trashGrp):
+            if t.vel.length <= 0:
+                self.vel = Vector(0, 0)
+                self.acc = Vector(0, 0)
+
         if self.rect.centery < bounds.y:
-            self.vel.y += 0.15
+            self.vel.y += 0.5
         elif self.rect.midbottom[1] > bounds.midbottom[1]:
             self.vel = Vector(0, 0)
             self.acc = Vector(0, 0)
         else:
             self.vel += self.acc
+
 
         if not isInRange(self.rect.centerx, -self.image.get_width()*3, bounds.x, bounds.topright[0]):
             self.kill()
@@ -220,10 +224,25 @@ class Garbage(SimpleImage):
 
                 self.kill()
 
-        if self.vel.length > 3:
-            self.vel /= self.vel.length
-            self.vel *= 3
+        if abs(self.vel.y) > 3:
+            self.vel.y /= abs(self.vel.y)
+            self.vel.y *= 3
 
-        self.vel += self.seperation(trashGrp, self.image.get_height(), 2)
         addVec(self.rect, self.vel * dTime)
+        self.vel += self.seperation(trashGrp, self.image.get_height(), 7)
 
+class Algea(Garbage):
+    def __init__(self, size, screen):
+        super().__init__(None, size, "assets/misc/Alger.png", False)
+        self.screen = screen
+
+    def update(self, *args, **kwargs):
+        super().update(*args)
+        if fish := pygame.sprite.spritecollideany(self, fishGrp):
+            fpath = f"assets/fish/{random.choice(os.listdir('assets/fish/'))}"
+            if os.path.isfile(fpath):
+                tmp = Fish(fpath, random.randrange(1, 5) / 10, self.screen, self.rect.center)
+                fish.flock.fishies.append(tmp)
+                tmp.flock = fish.flock
+                fishGrp.add(tmp)
+                self.kill()

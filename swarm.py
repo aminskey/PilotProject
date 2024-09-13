@@ -23,17 +23,23 @@ class Flock:
 
     self.bounds = bounds
     #Fiskene bliver genereret
-    for i in range(1, self.__amount):
+    for i in range(self.__amount):
       # self.__fishies.append(Fish(random.random()*600, random.random()*500, random.random()*5,random.random()*5))
       fpath = f"assets/fish/{random.choice(listdir('assets/fish/'))}"
       if os.path.isfile(fpath):
-          tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(bounds.topleft[0], bounds.topright[0]), random.randint(bounds.topright[1], bounds.bottomright[1])))
+          tmp = Fish(fpath, random.randrange(1, 5)/10, screen,screen.get_rect().center)
           self.__fishies.append(tmp)
           tmp.flock = self
+      else:
+        i -= 1
 
   @property
   def fishies(self):
     return self.__fishies
+
+  @fishies.setter
+  def fishies(self, other):
+    self.__fishies = other
 
   @property
   def length(self):

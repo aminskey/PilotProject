@@ -7,7 +7,7 @@ stdFPS = 45
 
 dTime = stdFPS/FPS
 
-GREEN = (0, 0, 255)
+GREEN = (0, 255, 0)
 BROWN = (139, 69, 19)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
@@ -48,3 +48,11 @@ def subVec(rect, vec):
 
 def dist(p1, p2):
     return sqrt((p2.x - p1.x)**2 + (p2.y - p1.y)**2)
+
+def secToTime(s):
+    try:
+        min=s/60
+    except:
+        min = 0
+
+    return f"{int(min)}:{int(s)}"
