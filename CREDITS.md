@@ -19,9 +19,9 @@ Game Over: Sonic 3 Game Over by SEGA Sound Team <br>
 Credits: Hirukazo Ando (Kirby's Dream Course) <br>
 Unused Music: Dean Evans (Water World SNES)
 
-## Documentation
-Max Aaron Buhler <br>
-Syed Muhammad Amin <br>
-Johan Vejgaard Hedegaard
+## In Collaboration With
+United Nations <br>
+Department of Economic and Social Affairs <br>
+Sustainable Development
 
 ## Presented by FISK

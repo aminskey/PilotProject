@@ -20,7 +20,7 @@ def main(screen):
 
     scrollVec = Vector(0, 0)
 
-    content = parseMD("CREDITS.md", 10, screen, textColor=(178, 178, 178), shadow=BLACK)
+    content = parseMD("README.md", 10, screen, textColor=(178, 178, 178), shadow=BLACK)
 
     for i in range(10):
         bub = Bubble(screen, (random.randint(0, screen.get_width()), random.randint(0, screen.get_height())), random.randint(0, 125)/100)

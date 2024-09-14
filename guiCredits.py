@@ -13,8 +13,6 @@ def main(screen):
     shade.set_alpha(6)
 
     index = 0
-    fadeOut = False
-
     startTime = time()
     l = pygame.sprite.Group()
 
@@ -29,20 +27,13 @@ def main(screen):
         if (currTime - startTime) > 4:
             l.empty()
             if index > len(contents.sprites()) - 1:
-                fadeOut = True
+                return
             else:
                 for tmp in contents.sprites():
                     if tmp.rect.y == contents.sprites()[index].rect.y:
                         l.add(tmp)
                 index += len(l)
             startTime = currTime
-
-        if fadeOut:
-            if pygame.mixer.music.get_volume() > 0:
-                pygame.mixer.music.set_volume(pygame.mixer.music.get_volume() - 0.01)
-            else:
-                pygame.mixer.music.set_volume(1)
-                return
 
         screen.blit(shade, (0, 0))
         for txt in l.sprites():
