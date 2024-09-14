@@ -15,6 +15,7 @@ def main(screen):
     index = 0
     startTime = time()
     l = pygame.sprite.Group()
+    fadeOut = False
 
     pygame.mixer.music.play()
     while True:
@@ -24,16 +25,19 @@ def main(screen):
                 exit()
 
         currTime = time()
-        if (currTime - startTime) > 4:
+        if (currTime - startTime) > 4 and not fadeOut:
+            startTime = currTime
             l.empty()
             if index > len(contents.sprites()) - 1:
-                return
+                fadeOut = True
             else:
                 for tmp in contents.sprites():
                     if tmp.rect.y == contents.sprites()[index].rect.y:
                         l.add(tmp)
-                index += len(l)
-            startTime = currTime
+            index += len(l)
+
+        if fadeOut and (currTime - startTime) > 8:
+            return
 
         screen.blit(shade, (0, 0))
         for txt in l.sprites():
