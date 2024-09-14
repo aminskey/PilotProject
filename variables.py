@@ -1,8 +1,8 @@
 import pygame
+import text
 
 from math import sqrt
 from vector import Vector
-from text import Text
 
 FPS = 60
 stdFPS = 45
@@ -61,15 +61,15 @@ def secToTime(s):
 
     return f"{int(min)}:{int(sec)}"
 
-def parseMD(file, margin, screen, **kwargs):
+def parseMD(file, margin, screen, sizeMult=1, **kwargs):
     tmpGrp = pygame.sprite.Group()
 
-    basicFont = pygame.font.Font("assets/fonts/pixelart.ttf", 25)
-    codeFont = pygame.font.Font("assets/fonts/Flexi_IBM_VGA_True.ttf", 25)
-    titleFont = pygame.font.Font("assets/fonts/pixelart.ttf", 75)
-    h2Font = pygame.font.Font("assets/fonts/pixelart.ttf", 50)
-    h3Font = pygame.font.Font("assets/fonts/pixelart.ttf", 30)
-    h4Font = pygame.font.Font("assets/fonts/pixelart.ttf", 27)
+    basicFont = pygame.font.Font("assets/fonts/pixelart.ttf", int(25*sizeMult))
+    codeFont = pygame.font.Font("assets/fonts/Flexi_IBM_VGA_True.ttf", int(25*sizeMult))
+    titleFont = pygame.font.Font("assets/fonts/pixelart.ttf", int(75*sizeMult))
+    h2Font = pygame.font.Font("assets/fonts/pixelart.ttf", int(50*sizeMult))
+    h3Font = pygame.font.Font("assets/fonts/pixelart.ttf", int(30*sizeMult))
+    h4Font = pygame.font.Font("assets/fonts/pixelart.ttf", int(27*sizeMult))
 
     with open(file, "rb") as f:
         buff = f.read().decode().split('\n')
@@ -81,6 +81,14 @@ def parseMD(file, margin, screen, **kwargs):
     pos = Vector(margin, 0)
     script = basicFont
     for word in buff:
+        if word.strip() == "<br>":
+            pos.y += script.size(word)[1]
+            pos.x = margin
+            continue
+
+        if word == "":
+            word = " "
+
         if "```" in word:
             if script is not codeFont:
                 script = codeFont
@@ -102,10 +110,7 @@ def parseMD(file, margin, screen, **kwargs):
                 script = h4Font
             continue
 
-        if word == "":
-            word = " "
-
-        tmp = Text(word.strip()+" ", script, **kwargs)
+        tmp = text.Text(word.strip()+" ", script, **kwargs)
         tmp.rect.topleft = pos.tuple
         tmpGrp.add(tmp)
 

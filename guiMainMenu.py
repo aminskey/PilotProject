@@ -1,6 +1,7 @@
 import random
 import pygame
 
+import guiCredits
 import guiGameOver
 import guiInfoPage
 import main as entrypoint
@@ -42,7 +43,7 @@ def main(screen):
     exitBtn.addText(Text("Quit Game", pFont, OCEANSHADOW), (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
 
     credBtn = Button(start.image.get_size())
-    credBtn.addText(Text("InDev", pFont, OCEANSHADOW),
+    credBtn.addText(Text("Credits", pFont, OCEANSHADOW),
                     (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
 
     start.rect.topright = title.rect.bottomright + Vector(-10, 40)
@@ -84,7 +85,7 @@ def main(screen):
                 backBub.add(bub)
         allSprites.add(bub, bgFish)
 
-    pygame.mixer.music.play()
+    pygame.mixer.music.play(-1)
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -100,8 +101,11 @@ def main(screen):
                 info.deactivate()
                 break
             elif credBtn.activated:
-                guiGameOver.gameOver(screen)
+                guiCredits.main(screen)
                 credBtn.deactivate()
+
+                pygame.mixer.music.load("assets/music/MainMenu/ocean-wave-ambient-boy-main-version-16232-09-09.mp3")
+                pygame.mixer.music.play(-1)
                 break
             elif exitBtn.activated:
                 pygame.quit()
