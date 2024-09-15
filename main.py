@@ -1,13 +1,8 @@
-import os.path
-import os
-
 import guiGameOver
 import guiMainMenu
 import random
 import json
 import time
-import cv2
-import datetime
 import pygame
 
 from pygame.locals import *
