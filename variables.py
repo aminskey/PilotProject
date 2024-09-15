@@ -93,10 +93,10 @@ def parseMD(file, margin, screen, sizeMult=1, **kwargs):
             if script is not codeFont:
                 script = codeFont
                 margin = 25
-
             elif script is codeFont:
                 script = basicFont
                 margin = 10
+            pos.y += 10
             pos = Vector(margin, pos.y)
             continue
         elif "#" in word and script is not codeFont:
