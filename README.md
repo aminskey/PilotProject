@@ -12,22 +12,16 @@ fish and coral reefs and easily thrive.
 
 But that is unfortunately not the case. Due to global warming, <br> 
 underwater life face new challenges: High temperature, rising water levels, <br>
-occurrences of strong storms and strong acids in the ocean etc.
+occurrences of strong storms and strong acids in the ocean etc. But another underrated killer is Marine plastic. <br>
 
-### Ocean Acidifcation
-Due to the excess amounts of Carbon Dioxide in the atmosphere, <br>
-our oceans are becoming more acidic. This is due to the CO2 reacting <br>
-with our ocean water. By doing so it's lowering the pH-value of the oceanwater <br>
-hindering creatures that require Calcium Carbonate to build their shells and bones.
+Marine plastic is responsible for degrading habitat and killing marine and coastal wildlife.
+Deaths caused by suffocation, indigestion, starvation and entanglement etc. About 1,500 species in marine and terrestial environments are known to ingenst plastics (US EPA, 2024).
 
-### Rising Sea Temperatures
-Due to the excess heat caused by global warmings, that of which 91% is absorved by our ocean, have constantly warmed since the 1970's. <br> <br>
-Warmer water alters organisms’ metabolisms. For example, warmer water can increase oxygen demand. It can cause mobile species to move and change their distribution range, leading to changes in food webs and ecosystem dynamics, as seen for many fish species (EEA, 2022b). <br> <br>
+### How it affects us
+Plastic debris is polluting the human food chain as well. Most of the fish that we eat have small microplastics in them, that we consume daily (or as often as we eat fish). In 2008 (yes a long time ago), Algalita researchers began finding that fish are ingesting plastic fragments and debris. Of the 672 fish caught during that voyage, 35% had ingested plastic pieces (Clean Water Action, 2024).
 
-### Ocean Deoxygenation
-Due to rising sea temperatures, another factor joins in on the top.
-<br><br> Ocean deoxygenation, as the name suggests, is the loss of oxygen in sea water. 
-<br><br>It occurs as warmer waters hold less dissolved oxygen. This occurs alongside increased oxygen consumption by various organisms and increased stratification and changes in ventilation (IPCC, 2019).
+### Our Approach
+
 
 
 
