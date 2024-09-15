@@ -42,12 +42,21 @@ After short intervals algae also spawn in the tank. If any fish eat from the alg
 
 For now the game is purely time based. The _"winner"_ is the one who survives for the longest. The rest is up to you to find out :D
 
-## How to play
+## Getting the game
 Checklist: 
 ````
 1. Python version >= 3.10
 2. pygame version >= 2.3.0
+3. Git
 ````
+### Downloading
+Enter your desired directory. <br>
+Open your terminal in folder and type:
+````
+$> git clone https://github.com/aminskey/PilotProject.git
+````
+
+
 ### Installation
 #### Python
 Linux:
