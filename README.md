@@ -30,7 +30,7 @@ You have been contacted by the United Nations, whom have hired you to develop a 
 The goal that we want to raise awareness about is Goal 14: Life below water.
 Our main subgoals are goals 14.1 and 14.2, which are as follows:
 
-1. By 2025, prevent and significantly reduce marine pollution of all kinds, in particular from land-based activities, including marine debris and nutrient pollution. <br><br>
+1. By 2025, prevent and significantly reduce marine pollution of all kinds, in particular from land-based activities, including marine debris and nutrient pollution. <br> <br>
 2. By 2020, sustainably manage and protect marine and coastal ecosystems to avoid significant adverse impacts, including by strengthening their resilience, and take action for their restoration in order to achieve healthy and productive oceans.
 
 We have created a prototype game, that has the sole purpose of making the player lose the game. 
@@ -87,4 +87,4 @@ pygame 2.5.1 (SDL 2.28.2, Python 3.11.9)
 Hello from the pygame community. https://www.pygame.org/contribute.html
 ````
 
-Use the mouse to navigate :D
+You can also view this page In-Game if you click on "About Us" in the Main Menu.
