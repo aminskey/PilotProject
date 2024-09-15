@@ -96,4 +96,4 @@ pygame 2.5.1 (SDL 2.28.2, Python 3.11.9)
 Hello from the pygame community. https://www.pygame.org/contribute.html
 ````
 
-You can also view this page In-Game if you click on "About Us" in the Main Menu.
+You can also view this page in the game if you click on "About Us" in the Main Menu.
