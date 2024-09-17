@@ -89,7 +89,7 @@ def main():
         border.update(water.rect.topleft, (bottom.rect.topright[0], bottom.rect.y - water.rect.y))
         border.y = water.rect.y
 
-        if count % (FPS*5 - int(x)) == 0:
+        if count % (FPS*2 - int(x)) == 0:
             for i in range(int(x)):
                 obj = random.choice(dat["list"])
                 tmp = Garbage(None, scale=0.5, image=obj["image"])

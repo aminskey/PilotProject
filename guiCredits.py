@@ -5,7 +5,7 @@ from time import time
 
 def main(screen):
 
-    pygame.mixer.music.load("assets/music/MainMenu/credits2.ogg")
+    pygame.mixer.music.load("assets/music/MainMenu/credits.ogg")
 
     contents = parseMD("CREDITS.md", 0, screen, 1.5, textColor=WHITE, shadow=OCEANBLUE, pos2=(3, 2))
     shade = pygame.Surface(screen.get_size())

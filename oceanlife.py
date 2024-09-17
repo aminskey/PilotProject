@@ -44,7 +44,7 @@ class Fish(pygame.sprite.Sprite):
 
         #distance at which borders are detected
         self.__vision = 10
-        self.__maxSpeed = 6
+        self.__maxSpeed = 10
         self.flock = None
 
 

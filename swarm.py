@@ -72,9 +72,13 @@ class Flock:
           neighbours.append(neighbour)
           # pygame.draw.line(screen, RED, (fish.rect.centerx, fish.rect.centery), (neighbour.rect.centerx, neighbour.rect.centery), 5)
           # pygame.draw.line(screen, GREEN, (fish.rect.centerx, fish.rect.centery), (fish.rect.centerx + 40*cos(fish.angle), fish.rect.centery + 40*sin(fish.angle)), 3)
-        fish.vel = fish.vel + self.seperation(fish, neighbours, 30)
+        """fish.vel = fish.vel + self.seperation(fish, neighbours, 30)
         fish.vel = fish.vel + self.allignment(fish, neighbours, 0.001)
-        fish.vel = fish.vel + self.cohesion(fish, neighbours, 0.004)
+        fish.vel = fish.vel + self.cohesion(fish, neighbours, 0.004)"""
+
+        fish.vel = fish.vel + self.seperation(fish, neighbours, 20)
+        fish.vel = fish.vel + self.allignment(fish, neighbours, 0.001)
+        fish.vel = fish.vel + self.cohesion(fish, neighbours, 0.006)
   def seperation(self, fish, neighbours, seperation_strength):
     seperationVel = Vector(0, 0)
     totalVel = Vector(0,0)
