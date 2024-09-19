@@ -2,7 +2,7 @@ import pygame
 
 from text import Text
 from pygame.locals import *
-from variables import WHITE, BLACK, addVec, clock, OCEANBLUE
+from variables import WHITE, BLACK, addVec, clock, OCEANSHADOW
 from vector import Vector
 
 def gameOver(screen):
@@ -10,7 +10,7 @@ def gameOver(screen):
 
     font = pygame.font.Font("assets/fonts/pixelart.ttf", 65)
 
-    title = Text("Game Over", font, WHITE, shadow=OCEANBLUE)
+    title = Text("Game Over", font, WHITE, shadow=OCEANSHADOW)
     bg = screen.copy()
     shade = pygame.Surface(screen.get_size())
     shade.fill(BLACK)

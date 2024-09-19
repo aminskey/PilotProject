@@ -3,12 +3,12 @@
     {
       "type": "Daase",
       "image": "assets/trash/images/Daase.png",
-      "acc_y": -0.25
+      "acc_y": -0.5
     },
     {
       "type": "Glasflaske",
       "image": "assets/trash/images/Glasflaske.png",
-      "acc_y": 0.25
+      "acc_y": 0.5
     },
     {
       "type": "Maddaase",
@@ -18,7 +18,7 @@
     {
       "type": "Plastik_flaske",
       "image": "assets/trash/images/Plastik_flaske.png",
-      "acc_y": -0.25
+      "acc_y": -0.5
     }
   ]
 }

@@ -23,17 +23,23 @@ class Flock:
 
     self.bounds = bounds
     #Fiskene bliver genereret
-    for i in range(1, self.__amount):
+    for i in range(self.__amount):
       # self.__fishies.append(Fish(random.random()*600, random.random()*500, random.random()*5,random.random()*5))
       fpath = f"assets/fish/{random.choice(listdir('assets/fish/'))}"
       if os.path.isfile(fpath):
-          tmp = Fish(fpath, random.randrange(1, 5)/10, screen,(random.randint(bounds.topleft[0], bounds.topright[0]), random.randint(bounds.topright[1], bounds.bottomright[1])))
+          tmp = Fish(fpath, random.randrange(1, 5)/10, screen,screen.get_rect().center)
           self.__fishies.append(tmp)
           tmp.flock = self
+      else:
+        i -= 1
 
   @property
   def fishies(self):
     return self.__fishies
+
+  @fishies.setter
+  def fishies(self, other):
+    self.__fishies = other
 
   @property
   def length(self):
@@ -66,9 +72,13 @@ class Flock:
           neighbours.append(neighbour)
           # pygame.draw.line(screen, RED, (fish.rect.centerx, fish.rect.centery), (neighbour.rect.centerx, neighbour.rect.centery), 5)
           # pygame.draw.line(screen, GREEN, (fish.rect.centerx, fish.rect.centery), (fish.rect.centerx + 40*cos(fish.angle), fish.rect.centery + 40*sin(fish.angle)), 3)
-        fish.vel = fish.vel + self.seperation(fish, neighbours, 30)
+        """fish.vel = fish.vel + self.seperation(fish, neighbours, 30)
         fish.vel = fish.vel + self.allignment(fish, neighbours, 0.001)
-        fish.vel = fish.vel + self.cohesion(fish, neighbours, 0.004)
+        fish.vel = fish.vel + self.cohesion(fish, neighbours, 0.004)"""
+
+        fish.vel = fish.vel + self.seperation(fish, neighbours, 20)
+        fish.vel = fish.vel + self.allignment(fish, neighbours, 0.001)
+        fish.vel = fish.vel + self.cohesion(fish, neighbours, 0.003)
   def seperation(self, fish, neighbours, seperation_strength):
     seperationVel = Vector(0, 0)
     totalVel = Vector(0,0)

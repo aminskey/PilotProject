@@ -1,8 +1,10 @@
 import random
 import pygame
 
+import guiCredits
 import guiGameOver
 import guiInfoPage
+import main as entrypoint
 
 from pygame.locals import *
 from misc import Bubble
@@ -41,7 +43,7 @@ def main(screen):
     exitBtn.addText(Text("Quit Game", pFont, OCEANSHADOW), (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
 
     credBtn = Button(start.image.get_size())
-    credBtn.addText(Text("InDev", pFont, OCEANSHADOW),
+    credBtn.addText(Text("Credits", pFont, OCEANSHADOW),
                     (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
 
     start.rect.topright = title.rect.bottomright + Vector(-10, 40)
@@ -70,6 +72,7 @@ def main(screen):
         if i < 3:
             bgFish = Fish("assets/fish/secretFish/fish2.png", random.randint(1, 5), screen,
                           (screen.get_width() // 2 + random.choice((-50, 50)), screen.get_height() // 2 + random.choice((-50, 50))), npc=True)
+            bgFish.vel /= bgFish.vel.length
             fishGrp.add(bgFish)
 
         if not pygame.sprite.spritecollideany(bub, bubbleGrp):
@@ -82,7 +85,7 @@ def main(screen):
                 backBub.add(bub)
         allSprites.add(bub, bgFish)
 
-    pygame.mixer.music.play()
+    pygame.mixer.music.play(-1)
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -91,14 +94,18 @@ def main(screen):
             if start.activated:
                 for i in allSprites.sprites():
                     i.kill()
+                entrypoint.main()
                 return
             elif info.activated:
                 guiInfoPage.main(screen)
                 info.deactivate()
                 break
             elif credBtn.activated:
-                guiGameOver.gameOver(screen)
+                guiCredits.main(screen)
                 credBtn.deactivate()
+
+                pygame.mixer.music.load("assets/music/MainMenu/ocean-wave-ambient-boy-main-version-16232-09-09.mp3")
+                pygame.mixer.music.play(-1)
                 break
             elif exitBtn.activated:
                 pygame.quit()
@@ -106,6 +113,10 @@ def main(screen):
 
         dTimeUpdate(clock)
         print(dTime)
+
+        for fish in fishGrp.sprites():
+            fish.vel /= fish.vel.length*1.1
+
 
         bubbleGrp.update()
         fishGrp.update(screen.get_rect())
