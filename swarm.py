@@ -78,7 +78,7 @@ class Flock:
 
         fish.vel = fish.vel + self.seperation(fish, neighbours, 20)
         fish.vel = fish.vel + self.allignment(fish, neighbours, 0.001)
-        fish.vel = fish.vel + self.cohesion(fish, neighbours, 0.006)
+        fish.vel = fish.vel + self.cohesion(fish, neighbours, 0.003)
   def seperation(self, fish, neighbours, seperation_strength):
     seperationVel = Vector(0, 0)
     totalVel = Vector(0,0)
