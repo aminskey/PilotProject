@@ -2,6 +2,7 @@ import pygame
 
 from variables import *
 from time import time
+from simpleImage import SimpleImage
 
 def main(screen):
 
@@ -9,6 +10,11 @@ def main(screen):
 
     contents = parseMD("CREDITS.md", 0, screen, 1.5, textColor=WHITE, shadow=OCEANBLUE, pos2=(3, 2))
     shade = pygame.Surface(screen.get_size())
+    logo = SimpleImage(("assets/misc/FN_logo.png"), (Vector(screen.get_size())/2).tuple)
+    logo.rect.center = screen.get_rect().center
+    contents.add(logo)
+
+
     shade.fill(BLACK)
     shade.set_alpha(6)
 
@@ -25,6 +31,7 @@ def main(screen):
                 exit()
 
         currTime = time()
+        # 4
         if (currTime - startTime) > 4 and not fadeOut:
             startTime = currTime
             l.empty()

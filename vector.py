@@ -1,9 +1,13 @@
 from math import sqrt, atan, pi, degrees
 
 class Vector:
-    def __init__(self, x, y):
-        self.__x = x
-        self.__y = y
+    def __init__(self, *args):
+        if len(args) == 2:
+            self.__x = args[0]
+            self.__y = args[1]
+        if isinstance(args[0], tuple):
+            if len(args[0]) == 2:
+                self.__x, self.__y = args[0]
 
     @property
     def x(self):
