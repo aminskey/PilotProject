@@ -69,7 +69,7 @@ class Vector:
         else:
             return TypeError(f"Unsupported operand type(s) for +: 'Vector' and '{type(other).__name__}'")
 
-    def __radd__(self, other):
+    def __rsub__(self, other):
         if isinstance(other, tuple) and len(other) == 2:
             return (self.__x - other[0], self.__y - other[1])
         else:
