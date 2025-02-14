@@ -55,8 +55,8 @@ async def main(screen):
     else:
 
         credBtn.rect.bottomright = screen.get_rect().bottomright + Vector(-10, -10)
-        info.rect.midbottom = credBtn.rect.midtop - Vector(0, 5)
-        start.rect.midbottom = info.rect.midtop - Vector(0, 5)
+        info.rect.midbottom = credBtn.rect.midtop + Vector(0, -5)
+        start.rect.midbottom = info.rect.midtop + Vector(0, -5)
         title.rect.bottomright = start.rect.topright + Vector(10, -20)
 
         buttons.add(start, info, credBtn)
