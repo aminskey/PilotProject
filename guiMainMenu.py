@@ -16,7 +16,6 @@ from button import Button
 
 buttons = pygame.sprite.Group()
 
-
 async def main(screen):
     titleFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 75)
     pFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 25)
@@ -44,12 +43,23 @@ async def main(screen):
     credBtn.addText(Text("Credits", pFont, OCEANSHADOW),
                     (exitBtn.image.get_width() // 2, exitBtn.image.get_height() // 2 - 4))
 
-    start.rect.topright = title.rect.bottomright + Vector(-10, 40)
-    info.rect.midtop = start.rect.midbottom + Vector(0, 5)
-    credBtn.rect.midtop = info.rect.midbottom + Vector(0, 5)
-    exitBtn.rect.bottomright = screen.get_rect().bottomright + Vector(-10, -10)
 
-    buttons.add(start, info, credBtn, exitBtn)
+
+    if not webMode:
+        start.rect.topright = title.rect.bottomright + Vector(-10, 40)
+        info.rect.midtop = start.rect.midbottom + Vector(0, 5)
+        credBtn.rect.midtop = info.rect.midbottom + Vector(0, 5)
+        exitBtn.rect.bottomright = screen.get_rect().bottomright + Vector(-10, -10)
+
+        buttons.add(start, info, credBtn, exitBtn)
+    else:
+
+        credBtn.rect.bottomright = screen.get_rect().bottomright + Vector(-10, -10)
+        info.rect.midbottom = credBtn.rect.midtop - Vector(0, 5)
+        start.rect.midbottom = info.rect.midtop - Vector(0, 5)
+        title.rect.bottomright = start.rect.topright + Vector(10, -20)
+
+        buttons.add(start, info, credBtn)
     allSprites.add(start, title)
 
     shade.set_alpha(125)

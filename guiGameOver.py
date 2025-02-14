@@ -41,10 +41,8 @@ async def gameOver(screen):
 
         vel += acc
         if title.rect.centery >= screen.get_height()//2:
-            vel *= -0.88
-            if vel.length <= 0.4:
-                vel = Vector(0, 0)
-                acc = Vector(0, 0)
+            vel = Vector(0, 0)
+            acc = Vector(0, 0)
 
         addVec(title.rect, vel)
         subtitle.rect.midtop = title.rect.midbottom

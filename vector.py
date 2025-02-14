@@ -60,8 +60,13 @@ class Vector:
             return (self.__x + other[0], self.__y + other[1])
         else:
             return TypeError(f"Unsupported operand type(s) for +: 'Vector' and '{type(other).__name__}'")
+    def __neg__(self):
+        return Vector(-self.x, -self.y)
     def __sub__(self, other):
-        return Vector(self.__x - other.__x, self.__y - other.__y)
+        return (-self).__add__(other)
+
+    def __rsub__(self, other):
+        return (-self).__radd__(other)
 
     def __mul__(self, other: int):
         return Vector(self.__x * other, self.__y * other)
@@ -69,8 +74,6 @@ class Vector:
     def __truediv__(self, other: int):
         return Vector(self.__x/other, self.__y/other)
 
-    def __neg__(self):
-        return Vector(-self.x, -self.y)
 
     def __str__(self):
         return f"Vector: x={self.__x} y={self.__y} length={self.length}, angle={degrees(self.polar360)}"
