@@ -4,7 +4,7 @@ from variables import *
 from vector import Vector
 
 class Text(pygame.sprite.Sprite):
-    def __init__(self, msg, script, textColor, pos=(0, 0), shadow=None, pos2=(2, 3)):
+    def __init__(self, msg, script, textColor, pos=(0, 0), shadow : tuple =None, pos2=(2, 3)):
         super().__init__()
 
         img = script.render(msg, None, textColor)

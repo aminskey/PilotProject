@@ -1,4 +1,5 @@
 import pygame
+import asyncio
 
 from text import Text
 from pygame.locals import *
@@ -6,7 +7,7 @@ from variables import WHITE, BLACK, addVec, clock, OCEANSHADOW
 from vector import Vector
 from time import time
 
-def gameOver(screen):
+async def gameOver(screen):
     pygame.mixer.music.load("assets/music/InGame/gameOver.ogg")
 
     font = pygame.font.Font("assets/fonts/pixelart.ttf", 65)
@@ -34,7 +35,6 @@ def gameOver(screen):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-                break
             if event.type == pygame.KEYDOWN:
                 if acc.length <= 0 and event.key == pygame.K_RETURN:
                     return
@@ -58,3 +58,4 @@ def gameOver(screen):
 
         pygame.display.update()
         clock.tick(30)
+        await asyncio.sleep(0)

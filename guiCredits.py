@@ -1,10 +1,11 @@
 import pygame
+import asyncio
 
 from variables import *
 from time import time
 from simpleImage import SimpleImage
 
-def main(screen):
+async def main(screen):
 
     pygame.mixer.music.load("assets/music/MainMenu/credits.ogg")
 
@@ -53,3 +54,4 @@ def main(screen):
 
         pygame.display.update()
         clock.tick(30)
+        await asyncio.sleep(0)

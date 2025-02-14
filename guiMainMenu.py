@@ -2,9 +2,9 @@ import random
 import pygame
 
 import guiCredits
-import guiGameOver
 import guiInfoPage
 import main as entrypoint
+import asyncio
 
 from pygame.locals import *
 from misc import Bubble
@@ -17,9 +17,7 @@ from button import Button
 buttons = pygame.sprite.Group()
 
 
-def main(screen):
-
-
+async def main(screen):
     titleFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 75)
     pFont = pygame.font.Font("./assets/fonts/pixelart.ttf", 25)
 
@@ -94,14 +92,14 @@ def main(screen):
             if start.activated:
                 for i in allSprites.sprites():
                     i.kill()
-                entrypoint.main()
+                await entrypoint.main()
                 return
             elif info.activated:
-                guiInfoPage.main(screen)
+                await guiInfoPage.main(screen)
                 info.deactivate()
                 break
             elif credBtn.activated:
-                guiCredits.main(screen)
+                await guiCredits.main(screen)
                 credBtn.deactivate()
 
                 pygame.mixer.music.load("assets/music/MainMenu/ocean-wave-ambient-boy-main-version-16232-09-09.mp3")
@@ -134,5 +132,4 @@ def main(screen):
 
         pygame.display.update()
         clock.tick(30)
-
-        print(clock.get_fps())
+        await asyncio.sleep(0)

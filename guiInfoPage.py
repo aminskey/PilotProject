@@ -1,11 +1,12 @@
 import pygame
 import random
+import asyncio
 
 from variables import *
 from misc import Bubble
 from vector import Vector
 
-def main(screen):
+async def main(screen):
     for b in bubbleGrp.sprites():
         b.kill()
 
@@ -63,3 +64,4 @@ def main(screen):
 
         pygame.display.update()
         clock.tick(FPS)
+        await asyncio.sleep(0)

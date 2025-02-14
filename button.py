@@ -1,30 +1,27 @@
-# More to come
-
 import pygame
 import json
-import cv2 as cv
 
 from variables import *
 
 class Button(pygame.sprite.Sprite):
     def __init__(self, size, image="assets/buttons/btn_spritesheet.png", jdata="assets/buttons/btn_spritesheet.json"):
         super().__init__()
-        tmp = cv.imread(image)
+        tmp = pygame.image.load(image)
         with open(jdata, "rb") as j:
             self.__data = json.load(j)
             j.close()
 
-        self.base_image = pygame.transform.scale(self.crop(tmp, "normal"), size)
-        self.h_image = pygame.transform.scale(self.crop(tmp, "hover"), size)
+        self.base_image = pygame.transform.scale(self.crop(tmp.copy(), "normal"), size)
+        self.h_image = pygame.transform.scale(self.crop(tmp.copy(), "hover"), size)
         self.image = self.base_image.copy()
         self.rect = self.image.get_rect()
         self.__activated = False
         self.fun = None
 
-    def crop(self, buff, header):
+    def crop(self, tmp, header):
         x, y, w, h = self.__data["frames"][header]["frame"].values()
-        buff2 = buff[y:y+h, x:x+w]
-        img = pygame.image.frombuffer(buff2.tobytes(), buff2.shape[1::-1], "BGR")
+        r = pygame.Rect(x, y, w, h)
+        img = tmp.subsurface(r)
         img.set_colorkey(BLACK)
 
         return img

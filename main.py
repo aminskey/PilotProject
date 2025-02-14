@@ -1,3 +1,5 @@
+import asyncio
+
 import guiGameOver
 import guiMainMenu
 import random
@@ -14,11 +16,12 @@ from simpleImage import SimpleImage, Water
 
 pygame.init()
 
-screen = pygame.display.set_mode((1200, 800), SCALED | FULLSCREEN)
+#screen = pygame.display.set_mode((1200, 800), SCALED | FULLSCREEN)
+screen = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("Marine Life")
 
 
-def main():
+async def main():
 
     fishGrp.empty()
     trashGrp.empty()
@@ -138,14 +141,14 @@ def main():
         clock.tick(FPS)
 
         if fish.length <= 0:
-            guiGameOver.gameOver(screen)
-            guiMainMenu.main(screen)
+            await guiGameOver.gameOver(screen)
+            await guiMainMenu.main(screen)
             return
 
-        print(clock.get_fps())
+        await asyncio.sleep(0)
         count += 1
 
     pygame.quit()
 
 if __name__ == "__main__":
-    guiMainMenu.main(screen)
+    asyncio.run(guiMainMenu.main(screen))
